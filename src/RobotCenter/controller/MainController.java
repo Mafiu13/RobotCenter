@@ -1,11 +1,11 @@
 package RobotCenter.controller;
 
+import RobotCenter.model.JSONParse;
 import RobotCenter.model.PanelTexts;
+import RobotCenter.model.RobotData;
 import RobotCenter.view.MainGui;
 import RobotCenter.view.RobotConnectedGui;
-import RobotCenter.view.RobotGui;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.ServerSocket;
@@ -26,6 +26,7 @@ public class MainController {
     private int maxRobotClientsCount;
     private List<RobotController> robotControllers;
     private List<String> tabNames;
+    private  List<RobotData> robotDatas;
     private static final String defaultPort = "50000";
     private static final int maxPort = 60000;
     private static final int minPort = 40000;
@@ -33,10 +34,29 @@ public class MainController {
     public MainController(MainGui mainGui) {
 
         this.mainGui = mainGui;
+
         maxRobotClientsCount = 3;
         robotControllers = new ArrayList<RobotController>(maxRobotClientsCount);
         tabNames = new ArrayList<String>(maxRobotClientsCount);
         tabNames.add("Main Menu");
+
+        JSONParse jsonParse= new JSONParse();
+        robotDatas = jsonParse.getRobotDatasList();
+
+        ///////////////////////////////////////////////////
+        for(int i = 0;i<robotDatas.size();i++){
+
+            System.out.println("RobotModelID:" + robotDatas.get(i).getRobotModelID()+ "\n");
+            System.out.println("RobotModel:" + robotDatas.get(i).getRobotModel()+ "\n");
+            System.out.println("MinJPose:" + robotDatas.get(i).getMinJPose()+ "\n");
+            System.out.println("MaxJPose:" + robotDatas.get(i).getMaxJPose()+ "\n");
+
+            System.out.println("Kolejny Model!" +"\n");
+
+        }
+
+
+
 
         mainGui.setInformationLabel(panelTexts.getInformationLabelText1());
         mainGui.setNewRobotLabel(panelTexts.getNewRobotLabelText3());
@@ -44,6 +64,7 @@ public class MainController {
         mainGui.setEnableCreateServerButton();
         mainGui.setEnablePortTextField(true);
         mainGui.setEnableConfigurationRobotButton(false);
+
         mainGui.addCreateServerListener(new createServer());
         mainGui.addCloseServerListener(new closeServer());
         mainGui.addConfigurateRobotListener(new configurateRobot());
