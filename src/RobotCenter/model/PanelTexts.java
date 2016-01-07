@@ -16,6 +16,10 @@ public class PanelTexts {
     private String alertLabelText2 = "Choose Robot's Model!";
     private String alertLabelText3 = "Robot's Name Cannot Be Empty!";
     private String alertLabelText4 = "Robot's Name Already Exists!";
+    private String moveAlertLabelText1 = "";
+    private String moveAlertLabelText2 = "Joint Position Out Of Range!";
+    private String moveAlertLabelText3 = "Joint Posiiton Must Be A Number!";
+    private String moveAlertLabelText4 = "You Can Now Safely Move Robot!";
 
     public String getInformationLabelText1() {
 
@@ -71,5 +75,26 @@ public class PanelTexts {
 
         return alertLabelText4;
     }
+
+    public String getMoveAlertLabelText1() {
+
+        return moveAlertLabelText1;
+    }
+
+    public String getMoveAlertLabelText2() {
+
+        return moveAlertLabelText2;
+    }
+
+    public String getMoveAlertLabelText3() {
+
+        return moveAlertLabelText3;
+    }
+
+    public String getMoveAlertLabelText4() {
+
+        return moveAlertLabelText4;
+    }
+
 
 }

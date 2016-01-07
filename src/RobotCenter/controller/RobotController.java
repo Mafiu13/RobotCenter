@@ -2,6 +2,8 @@ package RobotCenter.controller;
 
 import RobotCenter.model.JointPosition;
 import RobotCenter.model.PanelTexts;
+import RobotCenter.model.RobotData;
+import RobotCenter.model.RobotService;
 import RobotCenter.view.MainGui;
 import RobotCenter.view.RobotGui;
 
@@ -31,11 +33,13 @@ public class RobotController extends Thread {
     private JointPosition moveToJointPosition;
     private int robotControllerIndex;
     private String tabName;
+    private RobotData robotData;
+    private RobotService robotService;
     private boolean flag = true;
     private byte[] tabBytes = new byte[50];
 
 
-    public RobotController(MainGui mainGui, RobotGui robotGui, Socket robotClientSocket, List<RobotController> robotControllers, List<String> tabNames, String tabName, PanelTexts panelTexts) {
+    public RobotController(MainGui mainGui, RobotGui robotGui, Socket robotClientSocket, List<RobotController> robotControllers, List<String> tabNames, String tabName, PanelTexts panelTexts,RobotData robotData) {
 
         this.robotGui = robotGui;
         this.robotClientSocket = robotClientSocket;
@@ -44,17 +48,23 @@ public class RobotController extends Thread {
         this.mainGui = mainGui;
         this.tabName = tabName;
         this.tabNames = tabNames;
+        this.robotData = robotData;
+
+        robotGui.setRobotModelLabel(robotData.getRobotModel());
+        robotGui.setMoveAlertLabel(panelTexts.getMoveAlertLabelText1());
 
         robotControllerIndex = robotControllers.size();
+        robotService = new RobotService(robotData);
         currentJointPosition = new JointPosition(0,0,0,0,0,0);
         moveToJointPosition = new JointPosition(0,0,0,0,0,0);
 
 
+        robotGui.setEnableMoveRobotButton(false);
 
-        robotGui.addMoveListener(new moveRobot());
+        robotGui.addApplyListener(new apply());
+        robotGui.addMoveRobotListener(new moveRobot());
         robotGui.addStopRobotListener(new stopRobot());
         robotGui.addDisconnectRobotListener(new disconnectRobot());
-
     }
 
     public void run() {
@@ -63,6 +73,7 @@ public class RobotController extends Thread {
 
         sendStringMessage("Welcome To RobotCenter Server");
         robotGui.setRobotMessageLabel(receiveStringMessage());
+        sendStringMessage("Rozpocznijmy wymiane danych");
 
         while(flag){
 
@@ -70,7 +81,7 @@ public class RobotController extends Thread {
 
                 String cJPoseStr = receiveStringMessage();
                 robotGui.setAxisCJPoseTextField(i,cJPoseStr);
-                System.out.println(i + "\n" + cJPoseStr);
+                System.out.println("Axis"+i + ":" + cJPoseStr);
                 currentJointPosition.setJointPosition(i,convertStrToInt(cJPoseStr));
                 //sendStringMessage("Odebrano JPOS" + i);
             }
@@ -82,12 +93,32 @@ public class RobotController extends Thread {
     }
 
 
+    class apply implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+
+            if(checkIfMoveCommandIsNumber()){
+                if(checkMoveCommand()){
+
+            robotGui.setMoveAlertLabel(panelTexts.getMoveAlertLabelText4());
+                    robotGui.setEnableMoveRobotButton(true);
+        }}
+        else{
+                robotGui.setEnableMoveRobotButton(false);
+            }
+
+        }
+    }
+
     class moveRobot implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            robotGui.setRobotModelLabel("Move");
+
+            robotGui.setRobotModelLabel("Stop");
         }
     }
+
+
 
     class stopRobot implements ActionListener {
 
@@ -203,6 +234,49 @@ public class RobotController extends Thread {
         }
     }
 
+    private boolean checkIfMoveCommandIsNumber(){
+
+        boolean flag = true;
+
+        for (int i=1;i<=6;i++){
+
+            try {
+                double axis = Double.parseDouble(robotGui.getAxisMJPoseTextField(i));
+                moveToJointPosition.setJointPosition(i,axis);
+                robotGui.setColorAxisMJPoseTextField(i,true);
+            } catch (NumberFormatException e) {
+                robotGui.setMoveAlertLabel(panelTexts.getMoveAlertLabelText3());
+                robotGui.setColorAxisMJPoseTextField(i,false);
+                flag=false;
+            }
+
+
+        }
+
+
+        return  flag;
+
+    }
+
+
+    private boolean checkMoveCommand(){
+
+        boolean flag =true;
+
+        for (int i=1;i<=6;i++){
+            if(robotService.checkIfInJPoseRangeAxis(i,moveToJointPosition)){
+                robotGui.setColorAxisMJPoseTextField(i,true);
+            }
+            else{
+                robotGui.setColorAxisMJPoseTextField(i,false);
+                robotGui.setMoveAlertLabel(panelTexts.getMoveAlertLabelText2());
+                flag=false;
+            }
+
+        }
+        return  flag;
+    }
+
 
     public void closeRobotClient() {
 
@@ -221,7 +295,7 @@ public class RobotController extends Thread {
         }
     }
 
-    public int convertStrToInt(String str){
+    private int convertStrToInt(String str){
 
         try {
             int strToInt = Integer.parseInt(str);
@@ -231,7 +305,7 @@ public class RobotController extends Thread {
         }
     }
 
-    public String convertIntToStr(int intToStr){
+    private String convertIntToStr(int intToStr){
 
         String str = Integer.toString(intToStr);
         return  str;

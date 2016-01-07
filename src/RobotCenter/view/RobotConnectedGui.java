@@ -17,7 +17,6 @@ public class RobotConnectedGui {
     private JPanel robotConnectedGuiPanel;
     private JButton OKButton;
     private JButton cancelButton;
-    private JButton createRobotBookmarkButton;
     JFrame frame;
 
     public RobotConnectedGui() {
@@ -43,6 +42,16 @@ public class RobotConnectedGui {
     public void setAlertLabel(String alert) {
 
         alertLabel.setText(alert);
+    }
+
+    public void  setRobotModelLabelComboBox(String robotModelLabel){
+
+        robotModelLabelComboBox.addItem(robotModelLabel);
+    }
+
+    public int getRobotModelLabelComboBox(){
+
+        return robotModelLabelComboBox.getSelectedIndex();
     }
 
     public String getRobotNameTextField() {

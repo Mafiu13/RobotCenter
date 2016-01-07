@@ -31,23 +31,38 @@ public class JSONParse {
         JSONParser parser = new JSONParser();
 
         try {
-            JSONArray jsonArray = (JSONArray) parser.parse(new FileReader("src/RobotData 2.txt"));
+            JSONObject jsonObject = (JSONObject) parser.parse(new FileReader("src/RobotData.txt"));
+            JSONArray jsonArray = (JSONArray) jsonObject.get("Robot Data");
             for (Object object : jsonArray) {
 
                 JSONObject datas = (JSONObject) object;
 
-                Long robotModelID2 = (Long) datas.get("RobotModelID");
-                Integer robotModelID = Integer.valueOf(robotModelID2.intValue());
+                Long robotModelIDLong = (Long) datas.get("RobotModelID");
+                Integer robotModelID = Integer.valueOf(robotModelIDLong.intValue());
                 System.out.println("RobotModelID:" + robotModelID);
 
                 String robotModel = (String) datas.get("RobotModel");
                 System.out.println("RobotModel:" + robotModel);
 
-                Double minJPose = (Double) datas.get("MinJPose");
-                System.out.println("MinJPose:" + minJPose);
+                JSONObject minJPoseData = (JSONObject)((JSONObject) object).get("MinJPose");
+                JointPosition minJPose = new JointPosition();
+                System.out.println("MinJPose:" );
+                for(int i=1;i<7;i++){
 
-                Double maxJPose = (Double) datas.get("MaxJPose");
-                System.out.println("MaxJPose:" + maxJPose);
+                    Double axis = (Double) minJPoseData.get("Axis"+i);
+                    System.out.println("Axis:" + axis);
+                    minJPose.setJointPosition(i,axis);
+                }
+
+                JSONObject maxJPoseData = (JSONObject)((JSONObject) object).get("MaxJPose");
+                JointPosition maxJPose = new JointPosition();
+                System.out.println("MaxJPose:" );
+                for(int i=1;i<7;i++){
+
+                    Double axis = (Double)  maxJPoseData.get("Axis"+i);
+                    System.out.println("Axis:" + axis);
+                    maxJPose.setJointPosition(i,axis);
+                }
 
                 System.out.println("\n");
 

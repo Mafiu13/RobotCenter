@@ -5,14 +5,44 @@
     {
       "RobotModelID": 0,
       "RobotModel": "R-30iA",
-      "MinJPose": -100.1,
-      "MaxJPose": 100.1,
+      "MinJPose": {
+        "Axis1": -101.1,
+        "Axis2": -102.1,
+        "Axis3": -103.1,
+        "Axis4": -104.1,
+        "Axis5": -105.1,
+        "Axis6": -106.1
+      },
+      "MaxJPose": {
+        "Axis1": 101.1,
+        "Axis2": 102.1,
+        "Axis3": 103.1,
+        "Axis4": 104.1,
+        "Axis5": 105.1,
+        "Axis6": 106.1
+      },
+      
     },
-   {
+    {
       "RobotModelID": 1,
       "RobotModel": "R-30iB",
-      "MinJPose": -200.2,
-      "MaxJPose": 200.2,
+      "MinJPose": {
+        "Axis1": -201.1,
+        "Axis2": -202.1,
+        "Axis3": -203.1,
+        "Axis4": -204.1,
+        "Axis5": -205.1,
+        "Axis6": -206.1
+      },
+      "MaxJPose": {
+        "Axis1": 201.1,
+        "Axis2": 202.1,
+        "Axis3": 203.1,
+        "Axis4": 204.1,
+        "Axis5": 205.1,
+        "Axis6": 206.1
+      },
+      
     }
   ]
 }

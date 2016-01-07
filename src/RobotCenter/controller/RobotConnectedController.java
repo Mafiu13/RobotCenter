@@ -1,6 +1,7 @@
 package RobotCenter.controller;
 
 import RobotCenter.model.PanelTexts;
+import RobotCenter.model.RobotData;
 import RobotCenter.view.MainGui;
 import RobotCenter.view.RobotConnectedGui;
 import RobotCenter.view.RobotGui;
@@ -17,15 +18,17 @@ public class RobotConnectedController {
 
     private List<RobotController> robotControllers;
     private List<String> tabNames;
+    private List<RobotData> robotDatas;
     private Socket robotClientSocket;
     private MainGui mainGui;
     private PanelTexts panelTexts;
     private RobotConnectedGui robotConnectedGui;
     private RobotGui robotGui;
+    private RobotData robotData;
     String tabName;
 
 
-    public RobotConnectedController(List<RobotController> robotControllers, List<String> tabNames, Socket robotClientSocket, MainGui mainGui, PanelTexts panelTexts, RobotConnectedGui robotConnectedGui) {
+    public RobotConnectedController(List<RobotController> robotControllers, List<String> tabNames,List<RobotData> robotDatas, Socket robotClientSocket, MainGui mainGui, PanelTexts panelTexts, RobotConnectedGui robotConnectedGui) {
 
         this.mainGui = mainGui;
         this.panelTexts = panelTexts;
@@ -33,6 +36,7 @@ public class RobotConnectedController {
         this.robotClientSocket = robotClientSocket;
         this.robotConnectedGui = robotConnectedGui;
         this.tabNames = tabNames;
+        this.robotDatas = robotDatas;
 
         mainGui.setEnabledMainGui(false);
         robotConnectedGui.setAlertLabel(panelTexts.getAlertLabelText1());
@@ -49,13 +53,16 @@ public class RobotConnectedController {
 
                 if (tabName != null && !tabName.isEmpty()) {
 
+                    int indexRobotData = robotConnectedGui.getRobotModelLabelComboBox();
+                    robotData = robotDatas.get(indexRobotData);
+
                     robotGui = new RobotGui(tabName);
                     mainGui.addTabbedPane(robotGui.getRobotGuiPanel(), tabName);
                     mainGui.setNewRobotLabel(panelTexts.getNewRobotLabelText1());
                     mainGui.setEnableConfigurationRobotButton(false);
                     tabNames.add(tabName);
                     RobotController robotController;
-                    (robotController = new RobotController(mainGui, robotGui, robotClientSocket, robotControllers, tabNames, tabName, panelTexts)).start();
+                    (robotController = new RobotController(mainGui, robotGui, robotClientSocket, robotControllers, tabNames, tabName, panelTexts,robotData)).start();
                     robotControllers.add(robotController);
                     closeRobotConnectedController();
 

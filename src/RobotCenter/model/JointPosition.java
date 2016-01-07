@@ -5,14 +5,14 @@ package RobotCenter.model;
  */
 public class JointPosition {
 
-    private int axis1;
-    private int axis2;
-    private int axis3;
-    private int axis4;
-    private int axis5;
-    private int axis6;
+    private double axis1;
+    private double axis2;
+    private double axis3;
+    private double axis4;
+    private double axis5;
+    private double axis6;
 
-    public JointPosition(int axis1, int axis2, int axis3, int axis4, int axis5, int axis6) {
+    public JointPosition(double axis1, double axis2, double axis3, double axis4, double axis5, double axis6) {
 
         this.axis1 = axis1;
         this.axis2 = axis2;
@@ -23,7 +23,11 @@ public class JointPosition {
 
     }
 
-    public void setJointPosition(int i, int axis){
+    public  JointPosition(){
+
+    }
+
+    public void setJointPosition(int i, double axis){
 
         switch(i) {
             case(1):
@@ -47,7 +51,7 @@ public class JointPosition {
         }
     }
 
-    public int getJointPosition(int i){
+    public double getAxis(int i){
 
         switch(i) {
             case(1):
@@ -67,27 +71,27 @@ public class JointPosition {
         }
     }
 
-    public int getAxis1() {
+    public double getAxis1() {
         return axis1;
     }
 
-    public int getAxis2() {
+    public double getAxis2() {
         return axis2;
     }
 
-    public int getAxis3() {
+    public double getAxis3() {
         return axis3;
     }
 
-    public int getAxis4() {
+    public double getAxis4() {
         return axis4;
     }
 
-    public int getAxis5() {
+    public double getAxis5() {
         return axis5;
     }
 
-    public int getAxis6() {
+    public double getAxis6() {
         return axis6;
     }
 

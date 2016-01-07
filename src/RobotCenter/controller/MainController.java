@@ -41,10 +41,10 @@ public class MainController {
         tabNames.add("Main Menu");
 
         JSONParse jsonParse= new JSONParse();
-        robotDatas = jsonParse.getRobotDatasList();
+        this.robotDatas = jsonParse.getRobotDatasList();
 
-        ///////////////////////////////////////////////////
-        for(int i = 0;i<robotDatas.size();i++){
+        ///////////////////////////////////////////////////////////////////////////
+/*        for(int i = 0;i<robotDatas.size();i++){
 
             System.out.println("RobotModelID:" + robotDatas.get(i).getRobotModelID()+ "\n");
             System.out.println("RobotModel:" + robotDatas.get(i).getRobotModel()+ "\n");
@@ -53,10 +53,8 @@ public class MainController {
 
             System.out.println("Kolejny Model!" +"\n");
 
-        }
-
-
-
+        }*/
+        //////////////////////////////////////////////////////////
 
         mainGui.setInformationLabel(panelTexts.getInformationLabelText1());
         mainGui.setNewRobotLabel(panelTexts.getNewRobotLabelText3());
@@ -107,9 +105,6 @@ public class MainController {
 
         public void actionPerformed(ActionEvent e) {
 
-                /*serverSocket.close();
-                robotControllers.clear();
-                clearTabPanel();*/
                 closeRobotSockets();
                 mainGui.setInformationLabel(panelTexts.getInformationLabelText1());
                 mainGui.setNewRobotLabel(panelTexts.getNewRobotLabelText3());
@@ -126,7 +121,8 @@ public class MainController {
         public void actionPerformed(ActionEvent e) {
 
             RobotConnectedGui robotConnectedGui = new RobotConnectedGui();
-            RobotConnectedController robotConnectedController = new RobotConnectedController(robotControllers, tabNames, robotClientSocket, mainGui, panelTexts, robotConnectedGui);
+            addLabelsToConnectedGuiComboBox(robotConnectedGui);
+            RobotConnectedController robotConnectedController = new RobotConnectedController(robotControllers, tabNames,robotDatas, robotClientSocket, mainGui, panelTexts, robotConnectedGui);
 
         }
 
@@ -155,7 +151,8 @@ public class MainController {
                         if (robotControllers.size() <= maxRobotClientsCount) {
 
                             RobotConnectedGui robotConnectedGui = new RobotConnectedGui();
-                            RobotConnectedController robotConnectedController = new RobotConnectedController(robotControllers, tabNames, robotClientSocket, mainGui, panelTexts, robotConnectedGui);
+                            addLabelsToConnectedGuiComboBox(robotConnectedGui);
+                            RobotConnectedController robotConnectedController = new RobotConnectedController(robotControllers, tabNames,robotDatas, robotClientSocket, mainGui, panelTexts, robotConnectedGui);
 
                         } else {
                             robotClientSocket.close();
@@ -208,6 +205,13 @@ public class MainController {
             return true;
         } else {
             return false;
+        }
+    }
+
+    private  void addLabelsToConnectedGuiComboBox(RobotConnectedGui robotConnectedGui){
+
+        for(int i=0; i<robotDatas.size();i++){
+            robotConnectedGui.setRobotModelLabelComboBox(robotDatas.get(i).getRobotModel());
         }
     }
 

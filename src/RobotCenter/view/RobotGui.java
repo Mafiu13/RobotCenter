@@ -1,6 +1,7 @@
 package RobotCenter.view;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 /**
@@ -37,10 +38,12 @@ public class RobotGui {
     private JTextField axis4MJPoseTextField;
     private JTextField axis5MJPoseTextField;
     private JTextField axis6MJPoseTextField;
-    private JButton moveRobotButton;
+    private JButton applyButton;
     private JButton stopRobotButton;
     private JButton disconnectRobotButton;
     private JLabel robotMessageLabel;
+    private JLabel moveAlertLabel;
+    private JButton moveRobotButton;
 
     public RobotGui(String robotName) {
 
@@ -52,9 +55,14 @@ public class RobotGui {
         frame.setVisible(true);*/
     }
 
-    public void addMoveListener(ActionListener listenForMoveButton) {
+    public void addApplyListener(ActionListener listenForApplyButton) {
 
-        moveRobotButton.addActionListener(listenForMoveButton);
+        applyButton.addActionListener(listenForApplyButton);
+    }
+
+    public void addMoveRobotListener(ActionListener listenForMoveRobotButton) {
+
+        moveRobotButton.addActionListener(listenForMoveRobotButton);
     }
 
     public void addStopRobotListener(ActionListener listenForStopRobotButton) {
@@ -67,6 +75,11 @@ public class RobotGui {
         disconnectRobotButton.addActionListener(listenForDisconnectRobotButton);
     }
 
+    public void setEnableMoveRobotButton(boolean flag) {
+
+        moveRobotButton.setEnabled(flag);
+    }
+
     public void setRobotClientLabel(String robotClient) {
 
         robotClientLabel.setText(robotClient);
@@ -75,6 +88,11 @@ public class RobotGui {
     public void setRobotModelLabel(String robotModel) {
 
         robotModelLabel.setText(robotModel);
+    }
+
+    public void setMoveAlertLabel(String moveAlert) {
+
+        moveAlertLabel.setText(moveAlert);
     }
 
     public void setAxisCJPoseTextField(int i, String axisCJPose) {
@@ -99,7 +117,7 @@ public class RobotGui {
             case 6:
                 axis6CJPoseTextField.setText(axisCJPose);
                 break;
-                default:
+            default:
 
         }
     }
@@ -171,6 +189,55 @@ public class RobotGui {
             }
             default:
                 return "0";
+        }
+    }
+
+    public void setColorAxisMJPoseTextField(int i, boolean color) {
+
+        switch (i) {
+
+            case (1): {
+                if (color) {
+                    axis1MJPoseTextField.setForeground(Color.BLACK);
+                } else {
+                    axis1MJPoseTextField.setForeground(Color.RED);
+                }
+            }
+            case (2): {
+                if (color) {
+                    axis2MJPoseTextField.setForeground(Color.BLACK);
+                } else {
+                    axis2MJPoseTextField.setForeground(Color.RED);
+                }
+            }
+            case (3): {
+                if (color) {
+                    axis3MJPoseTextField.setForeground(Color.BLACK);
+                } else {
+                    axis3MJPoseTextField.setForeground(Color.RED);
+                }
+            }
+            case (4): {
+                if (color) {
+                    axis4MJPoseTextField.setForeground(Color.BLACK);
+                } else {
+                    axis4MJPoseTextField.setForeground(Color.RED);
+                }
+            }
+            case (5): {
+                if (color) {
+                    axis5MJPoseTextField.setForeground(Color.BLACK);
+                } else {
+                    axis5MJPoseTextField.setForeground(Color.RED);
+                }
+            }
+            case (6): {
+                if (color) {
+                    axis6MJPoseTextField.setForeground(Color.BLACK);
+                } else {
+                    axis6MJPoseTextField.setForeground(Color.RED);
+                }
+            }
         }
     }
 
