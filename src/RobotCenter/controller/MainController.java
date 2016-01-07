@@ -26,7 +26,7 @@ public class MainController {
     private int maxRobotClientsCount;
     private List<RobotController> robotControllers;
     private List<String> tabNames;
-    private  List<RobotData> robotDatas;
+    private List<RobotData> robotDatas;
     private static final String defaultPort = "50000";
     private static final int maxPort = 60000;
     private static final int minPort = 40000;
@@ -40,7 +40,7 @@ public class MainController {
         tabNames = new ArrayList<String>(maxRobotClientsCount);
         tabNames.add("Main Menu");
 
-        JSONParse jsonParse= new JSONParse();
+        JSONParse jsonParse = new JSONParse();
         this.robotDatas = jsonParse.getRobotDatasList();
 
         ///////////////////////////////////////////////////////////////////////////
@@ -105,12 +105,12 @@ public class MainController {
 
         public void actionPerformed(ActionEvent e) {
 
-                closeRobotSockets();
-                mainGui.setInformationLabel(panelTexts.getInformationLabelText1());
-                mainGui.setNewRobotLabel(panelTexts.getNewRobotLabelText3());
-                mainGui.setEnablePortTextField(true);
-                mainGui.setEnableCreateServerButton();
-                mainGui.setEnableConfigurationRobotButton(false);
+            closeRobotSockets();
+            mainGui.setInformationLabel(panelTexts.getInformationLabelText1());
+            mainGui.setNewRobotLabel(panelTexts.getNewRobotLabelText3());
+            mainGui.setEnablePortTextField(true);
+            mainGui.setEnableCreateServerButton();
+            mainGui.setEnableConfigurationRobotButton(false);
 
         }
 
@@ -122,7 +122,7 @@ public class MainController {
 
             RobotConnectedGui robotConnectedGui = new RobotConnectedGui();
             addLabelsToConnectedGuiComboBox(robotConnectedGui);
-            RobotConnectedController robotConnectedController = new RobotConnectedController(robotControllers, tabNames,robotDatas, robotClientSocket, mainGui, panelTexts, robotConnectedGui);
+            RobotConnectedController robotConnectedController = new RobotConnectedController(robotControllers, tabNames, robotDatas, robotClientSocket, mainGui, panelTexts, robotConnectedGui);
 
         }
 
@@ -152,7 +152,7 @@ public class MainController {
 
                             RobotConnectedGui robotConnectedGui = new RobotConnectedGui();
                             addLabelsToConnectedGuiComboBox(robotConnectedGui);
-                            RobotConnectedController robotConnectedController = new RobotConnectedController(robotControllers, tabNames,robotDatas, robotClientSocket, mainGui, panelTexts, robotConnectedGui);
+                            RobotConnectedController robotConnectedController = new RobotConnectedController(robotControllers, tabNames, robotDatas, robotClientSocket, mainGui, panelTexts, robotConnectedGui);
 
                         } else {
                             robotClientSocket.close();
@@ -169,23 +169,22 @@ public class MainController {
         serverThread.start();
     }
 
-    private void clearTabPanel(){
+    private void clearTabPanel() {
 
-        for(int i=tabNames.size()-1;i>0;i--){
+        for (int i = tabNames.size() - 1; i > 0; i--) {
 
             mainGui.removeTabbedPane(tabNames.get(i));
             tabNames.remove(i);
         }
     }
 
-    private void closeRobotSockets(){
+    private void closeRobotSockets() {
 
-        for(int i = robotControllers.size()-1; i>=0;i--){
+        for (int i = robotControllers.size() - 1; i >= 0; i--) {
 
             robotControllers.get(i).closeRobotClient();
         }
     }
-
 
 
     private int convertPortToInt() {
@@ -208,9 +207,9 @@ public class MainController {
         }
     }
 
-    private  void addLabelsToConnectedGuiComboBox(RobotConnectedGui robotConnectedGui){
+    private void addLabelsToConnectedGuiComboBox(RobotConnectedGui robotConnectedGui) {
 
-        for(int i=0; i<robotDatas.size();i++){
+        for (int i = 0; i < robotDatas.size(); i++) {
             robotConnectedGui.setRobotModelLabelComboBox(robotDatas.get(i).getRobotModel());
         }
     }

@@ -72,7 +72,7 @@ public class RobotController extends Thread {
 
         sendStringMessage("Welcome To RobotCenter Server");
         robotGui.setRobotMessageLabel(receiveStringMessage());
-        //sendStringMessage("Rozpocznijmy wymiane danych");
+        sendStringMessage("Rozpocznijmy wymiane danych");
 
         while (flag) {
 
