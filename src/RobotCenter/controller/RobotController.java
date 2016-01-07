@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -133,19 +134,32 @@ public class RobotController extends Thread {
         }
     }
 
+    private String receiveStringMessage() {
+        byte[] bytes = new byte[10000000];
+        int size;
+        try {
+            size = robotClientSocket.getInputStream().read(bytes);
+        } catch (IOException e) {
+            System.out.println("blad");
+            e.printStackTrace();
+            size = 0;
+        }
+
+        return new String(bytes, 0, size, StandardCharsets.UTF_8);
+    }
+
     private void sendStringMessage(String messsage) {
 
-        PrintWriter outputStream = null;
+
+
         try {
-            outputStream = new PrintWriter(robotClientSocket.getOutputStream());
+            robotClientSocket.getOutputStream().write(messsage.getBytes());
         } catch (IOException e) {
-            if (flag)
-                e.printStackTrace();
+            System.out.println("blad");
+            e.printStackTrace();
         }
 
 
-        outputStream.println(messsage);
-        outputStream.flush();
     }
 
     private void sendIntMessage(int message) {
@@ -161,33 +175,6 @@ public class RobotController extends Thread {
         String strMessage = Integer.toString(message);
         outputStream.println(strMessage);
         outputStream.flush();
-    }
-
-    private String receiveStringMessage() {
-
-
-        BufferedReader inputStream = null;
-        try {
-            inputStream = new BufferedReader(new InputStreamReader(robotClientSocket.getInputStream()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String message = null;
-
-        while (message == null) {
-            try {
-                message = inputStream.readLine();
-            } catch (IOException e) {
-                //e.printStackTrace();
-
-                ////////////ZAMKNIECIE CLIENTSOCKETA JEZELI BRAK ODPOWIEDZI
-                if (flag)
-                    closeRobotClient();
-            }
-        }
-
-        return message;
     }
 
 
