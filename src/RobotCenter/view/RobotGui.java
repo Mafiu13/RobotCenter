@@ -12,8 +12,6 @@ public class RobotGui {
     private JPanel robotGuiPanel;
     private JLabel robotClientLabel;
     private JLabel robotModelLabel;
-    private JLabel currentJPoseLabel;
-    private JLabel moveRobotJPoseLabel;
     private JLabel axis1CJPoseLabel;
     private JLabel axis2CJPoseLabel;
     private JLabel axis3CJPoseLabel;

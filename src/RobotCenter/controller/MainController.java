@@ -29,7 +29,7 @@ public class MainController {
     private List<RobotData> robotDatas;
     private static final String defaultPort = "50000";
     private static final int maxPort = 60000;
-    private static final int minPort = 40000;
+    private static final int minPort = 4000;
 
     public MainController(MainGui mainGui) {
 

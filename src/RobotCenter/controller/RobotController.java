@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 
 /**
@@ -37,7 +37,8 @@ public class RobotController extends Thread {
     private RobotData robotData;
     private RobotService robotService;
     private boolean flag = true;
-    private byte[] tabBytes = new byte[50];
+    private String command = "0";
+
 
 
     public RobotController(MainGui mainGui, RobotGui robotGui, Socket robotClientSocket, List<RobotController> robotControllers, List<String> tabNames, String tabName, PanelTexts panelTexts, RobotData robotData) {
@@ -71,21 +72,29 @@ public class RobotController extends Thread {
     public void run() {
 
 
+        BufferedReader inputStream = null;
+        try {
+            inputStream = new BufferedReader(new InputStreamReader(robotClientSocket.getInputStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         sendStringMessage("Welcome To RobotCenter Server");
-        robotGui.setRobotMessageLabel(receiveStringMessage());
-        sendStringMessage("Rozpocznijmy wymiane danych");
+        robotGui.setRobotMessageLabel(receiveStringMessage(inputStream));
+        sendStringMessage("Start communication");
 
         while (flag) {
 
             for (int i = 1; i < 7; i++) {
 
-                String cJPoseStr = receiveStringMessage();
+                String cJPoseStr = receiveStringMessage(inputStream);
                 robotGui.setAxisCJPoseTextField(i, cJPoseStr);
                 System.out.println("Axis" + i + ":" + cJPoseStr);
-                currentJointPosition.setJointPosition(i, convertStrToInt(cJPoseStr));
+                currentJointPosition.setJointPosition(i, convertStrToDouble(cJPoseStr));
                 //sendStringMessage("Odebrano JPOS" + i);
             }
-            sendStringMessage("JPoseUstawione");
+            sendStringMessage("JPoseSet");
+            sendStringMessage(command);
 
         }
 
@@ -122,7 +131,8 @@ public class RobotController extends Thread {
     class stopRobot implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            robotGui.setRobotModelLabel("Stop");
+
+            command = "1";
         }
     }
 
@@ -134,32 +144,19 @@ public class RobotController extends Thread {
         }
     }
 
-    private String receiveStringMessage() {
-        byte[] bytes = new byte[10000000];
-        int size;
-        try {
-            size = robotClientSocket.getInputStream().read(bytes);
-        } catch (IOException e) {
-            System.out.println("blad");
-            e.printStackTrace();
-            size = 0;
-        }
-
-        return new String(bytes, 0, size, StandardCharsets.UTF_8);
-    }
-
     private void sendStringMessage(String messsage) {
 
-
-
+        PrintWriter outputStream = null;
         try {
-            robotClientSocket.getOutputStream().write(messsage.getBytes());
+            outputStream = new PrintWriter(robotClientSocket.getOutputStream());
         } catch (IOException e) {
-            System.out.println("blad");
-            e.printStackTrace();
+            if (flag)
+                e.printStackTrace();
         }
 
 
+        outputStream.println(messsage);
+        outputStream.flush();
     }
 
     private void sendIntMessage(int message) {
@@ -175,6 +172,26 @@ public class RobotController extends Thread {
         String strMessage = Integer.toString(message);
         outputStream.println(strMessage);
         outputStream.flush();
+    }
+
+    private String receiveStringMessage(BufferedReader inputStream) {
+
+
+        String message = null;
+
+        while (message == null) {
+            try {
+                message = inputStream.readLine();
+            } catch (IOException e) {
+                //e.printStackTrace();
+
+                ////////////ZAMKNIECIE CLIENTSOCKETA JEZELI BRAK ODPOWIEDZI
+                if (flag)
+                    closeRobotClient();
+            }
+        }
+
+        return message;
     }
 
 
@@ -279,6 +296,19 @@ public class RobotController extends Thread {
     private String convertIntToStr(int intToStr) {
 
         String str = Integer.toString(intToStr);
+        return str;
+    }
+
+    private double convertStrToDouble(String str) {
+
+
+        double strToDouble = Double.parseDouble(str);
+        return strToDouble;
+    }
+
+    private String convertDoubleToStr(double doubleToStr) {
+
+        String str = Double.toString(doubleToStr);
         return str;
     }
 

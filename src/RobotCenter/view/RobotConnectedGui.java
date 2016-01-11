@@ -23,7 +23,7 @@ public class RobotConnectedGui {
 
         frame = new JFrame("New Robot Connected!");
         frame.setContentPane(robotConnectedGuiPanel);
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
 
