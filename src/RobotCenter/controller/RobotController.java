@@ -37,6 +37,7 @@ public class RobotController extends Thread {
     private RobotData robotData;
     private RobotService robotService;
     private boolean flag = true;
+    private boolean moveFlag = false;
     private String command = "0";
 
 
@@ -83,20 +84,31 @@ public class RobotController extends Thread {
         robotGui.setRobotMessageLabel(receiveStringMessage(inputStream));
         sendStringMessage("Start communication");
 
-        while (flag) {
 
-            for (int i = 1; i < 7; i++) {
+            while (flag) {
 
-                String cJPoseStr = receiveStringMessage(inputStream);
-                robotGui.setAxisCJPoseTextField(i, cJPoseStr);
-                System.out.println("Axis" + i + ":" + cJPoseStr);
-                currentJointPosition.setJointPosition(i, convertStrToDouble(cJPoseStr));
-                //sendStringMessage("Odebrano JPOS" + i);
+                synchronized (this) {
+                    for (int i = 1; i < 7; i++) {
+
+                        String cJPoseStr = receiveStringMessage(inputStream);
+                        robotGui.setAxisCJPoseTextField(i, cJPoseStr);
+                        System.out.println("Axis" + i + ":" + cJPoseStr);
+                        currentJointPosition.setJointPosition(i, convertStrToDouble(cJPoseStr));
+                        //sendStringMessage("Odebrano JPOS" + i);
+                    }
+
+                    sendStringMessage("JPoseSet");
+                }
+                synchronized (this){
+                sendStringMessage(command);
+
+                if (moveFlag) {
+                    moveRobot(inputStream);
+                }
+
+
             }
-            sendStringMessage("JPoseSet");
-            sendStringMessage(command);
-
-        }
+            }
 
 
     }
@@ -123,7 +135,9 @@ public class RobotController extends Thread {
 
         public void actionPerformed(ActionEvent e) {
 
-            robotGui.setRobotModelLabel("Stop");
+            command = "1";
+            moveFlag = true;
+            robotGui.setRobotMessageLabel("Robot is moving");
         }
     }
 
@@ -132,7 +146,7 @@ public class RobotController extends Thread {
 
         public void actionPerformed(ActionEvent e) {
 
-            command = "1";
+            command = "2";
         }
     }
 
@@ -222,6 +236,27 @@ public class RobotController extends Thread {
             return 0;
         }
     }
+
+    private void moveRobot(BufferedReader inputStream){
+
+        command = "0";
+        moveFlag = false;
+        robotGui.setEnableMoveRobotButton(false);
+
+        for (int i = 1; i < 7; i++) {
+
+            sendStringMessage(robotGui.getAxisMJPoseTextField(i));
+            System.out.println(robotGui.getAxisMJPoseTextField(i));
+            moveToJointPosition.setJointPosition(i,convertStrToDouble(robotGui.getAxisMJPoseTextField(i)));
+        }
+        String lololo = receiveStringMessage(inputStream);
+        robotGui.setRobotMessageLabel(lololo);
+        System.out.println("AFTER MOVE CLIENT SENDED:" + lololo);
+
+
+    }
+
+
 
     private boolean checkIfMoveCommandIsNumber() {
 

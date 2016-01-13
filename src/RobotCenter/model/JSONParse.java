@@ -31,7 +31,7 @@ public class JSONParse {
         JSONParser parser = new JSONParser();
 
         try {
-            JSONObject jsonObject = (JSONObject) parser.parse(new FileReader("src/RobotData.txt"));
+            JSONObject jsonObject = (JSONObject) parser.parse(new FileReader("src/Data Base/RobotData.json"));
             JSONArray jsonArray = (JSONArray) jsonObject.get("Robot Data");
             for (Object object : jsonArray) {
 
