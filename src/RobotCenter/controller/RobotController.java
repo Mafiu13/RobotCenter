@@ -1,9 +1,6 @@
 package RobotCenter.controller;
 
-import RobotCenter.model.JointPosition;
-import RobotCenter.model.PanelTexts;
-import RobotCenter.model.RobotData;
-import RobotCenter.model.RobotService;
+import RobotCenter.model.*;
 import RobotCenter.view.MainGui;
 import RobotCenter.view.RobotGui;
 
@@ -14,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.DoubleSummaryStatistics;
 import java.util.List;
 
 /**
@@ -32,13 +28,14 @@ public class RobotController extends Thread {
     private BufferedReader inputStream;
     private JointPosition currentJointPosition;
     private JointPosition moveToJointPosition;
-    private int robotControllerIndex;
     private String tabName;
     private RobotData robotData;
     private RobotService robotService;
     private boolean flag = true;
     private boolean moveFlag = false;
     private String command = "0";
+    private RobotControllerValidator robotControllerValidator;
+    private int speed;
 
 
 
@@ -56,10 +53,12 @@ public class RobotController extends Thread {
         robotGui.setRobotModelLabel(robotData.getRobotModel());
         robotGui.setMoveAlertLabel(panelTexts.getMoveAlertLabelText1());
 
-        robotControllerIndex = robotControllers.size();
-        robotService = new RobotService(robotData);
-        currentJointPosition = new JointPosition(0, 0, 0, 0, 0, 0);
+
         moveToJointPosition = new JointPosition(0, 0, 0, 0, 0, 0);
+        currentJointPosition = new JointPosition(0, 0, 0, 0, 0, 0);
+
+        robotService = new RobotService(robotData);
+        robotControllerValidator = new RobotControllerValidator(moveToJointPosition, robotGui, panelTexts, robotService);
 
 
         robotGui.setEnableMoveRobotButton(false);
@@ -93,7 +92,7 @@ public class RobotController extends Thread {
                     String cJPoseStr = receiveStringMessage(inputStream);
                     robotGui.setAxisCJPoseTextField(i, cJPoseStr);
                     System.out.println("Axis" + i + ":" + cJPoseStr);
-                    currentJointPosition.setJointPosition(i, convertStrToDouble(cJPoseStr));
+                    currentJointPosition.setJointPosition(i, TypeConverter.convertStrToDouble(cJPoseStr));
                     //sendStringMessage("Odebrano JPOS" + i);
                 }
 
@@ -118,11 +117,18 @@ public class RobotController extends Thread {
 
         public void actionPerformed(ActionEvent e) {
 
-            if (checkIfMoveCommandIsNumber()) {
-                if (checkMoveCommand()) {
+            if (robotControllerValidator.checkIfMoveCommandIsNumber()) {
+                if (robotControllerValidator.checkMoveCommand()) {
 
+                    robotControllerValidator.correctMoveToJointPosition();
+                    moveToJointPosition = robotControllerValidator.getMoveToJointPosition();
+                    speed = robotControllerValidator.getSpeed();
+                    System.out.println(speed);
                     robotGui.setMoveAlertLabel(panelTexts.getMoveAlertLabelText4());
                     robotGui.setEnableMoveRobotButton(true);
+                }
+                else{
+                    robotGui.setEnableMoveRobotButton(false);
                 }
             } else {
                 robotGui.setEnableMoveRobotButton(false);
@@ -139,7 +145,7 @@ public class RobotController extends Thread {
             moveFlag = true;
             robotGui.setRobotMessageLabel("Robot is moving");
             robotGui.setEnableMoveRobotButton(false);
-            robotGui.setEndableApplyButton(false);
+            robotGui.setEnableApplyButton(false);
         }
     }
 
@@ -160,9 +166,8 @@ public class RobotController extends Thread {
         }
     }
 
-    //USUNAC SEND I RECEIVE INT MESSAGE!!! NIEPOTRZEBNE
 
-    private void sendStringMessage(String messsage) {
+    private void sendStringMessage(String message) {
 
         PrintWriter outputStream = null;
         try {
@@ -173,22 +178,7 @@ public class RobotController extends Thread {
         }
 
 
-        outputStream.println(messsage);
-        outputStream.flush();
-    }
-
-    private void sendIntMessage(int message) {
-
-        PrintWriter outputStream = null;
-        try {
-            outputStream = new PrintWriter(robotClientSocket.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        String strMessage = Integer.toString(message);
-        outputStream.println(strMessage);
+        outputStream.println(message);
         outputStream.flush();
     }
 
@@ -212,35 +202,6 @@ public class RobotController extends Thread {
         return message;
     }
 
-
-    private int receiveIntMessage() {
-
-
-        BufferedReader inputStream = null;
-        try {
-            inputStream = new BufferedReader(new InputStreamReader(robotClientSocket.getInputStream()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String message = null;
-        try {
-            message = inputStream.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            ////////////ZAMKNIECIE CLIENTSOCKETA JEZELI BRAK ODPOWIEDZI
-            //closeRobotClient();
-        }
-
-        try {
-            int intMessage = Integer.parseInt(message);
-            return intMessage;
-        } catch (NumberFormatException e) {
-            return 0;
-        }
-    }
-
     private void moveRobot(BufferedReader inputStream){
 
         command = "0";
@@ -251,61 +212,15 @@ public class RobotController extends Thread {
 
             sendStringMessage(robotGui.getAxisMJPoseTextField(i));
             System.out.println(robotGui.getAxisMJPoseTextField(i));
-            moveToJointPosition.setJointPosition(i,convertStrToDouble(robotGui.getAxisMJPoseTextField(i)));
+            moveToJointPosition.setJointPosition(i,TypeConverter.convertStrToDouble(robotGui.getAxisMJPoseTextField(i)));
         }
         String lololo = receiveStringMessage(inputStream);
         robotGui.setRobotMessageLabel(lololo);
         System.out.println("AFTER MOVE CLIENT SENDED:" + lololo);
-        robotGui.setEndableApplyButton(true);
+        robotGui.setEnableApplyButton(true);
 
 
     }
-
-    /////ZROBIC MODEL DO SPRAWDZANIA ZAKRESOW!!!
-
-
-    private boolean checkIfMoveCommandIsNumber() {
-
-        boolean flag = true;
-
-        for (int i = 1; i <= 6; i++) {
-
-            try {
-                double axis = Double.parseDouble(robotGui.getAxisMJPoseTextField(i));
-                moveToJointPosition.setJointPosition(i, axis);
-                robotGui.setColorAxisMJPoseTextField(i, true);
-            } catch (NumberFormatException e) {
-                robotGui.setMoveAlertLabel(panelTexts.getMoveAlertLabelText3());
-                robotGui.setColorAxisMJPoseTextField(i, false);
-                flag = false;
-            }
-
-
-        }
-
-
-        return flag;
-
-    }
-
-
-    private boolean checkMoveCommand() {
-
-        boolean flag = true;
-
-        for (int i = 1; i <= 6; i++) {
-            if (robotService.checkIfInJPoseRangeAxis(i, moveToJointPosition)) {
-                robotGui.setColorAxisMJPoseTextField(i, true);
-            } else {
-                robotGui.setColorAxisMJPoseTextField(i, false);
-                robotGui.setMoveAlertLabel(panelTexts.getMoveAlertLabelText2());
-                flag = false;
-            }
-
-        }
-        return flag;
-    }
-
 
     public void closeRobotClient() {
 
@@ -314,7 +229,6 @@ public class RobotController extends Thread {
 
         tabNames.remove(tabName);
 
-
         robotControllers.remove(this);
 
         try {
@@ -322,38 +236,6 @@ public class RobotController extends Thread {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-    }
-
-
-    ////ZROBIC MODEL DO KONWERSJY TYPOW!!!!!
-
-    private int convertStrToInt(String str) {
-
-        try {
-            int strToInt = Integer.parseInt(str);
-            return strToInt;
-        } catch (NumberFormatException e) {
-            return 0;
-        }
-    }
-
-    private String convertIntToStr(int intToStr) {
-
-        String str = Integer.toString(intToStr);
-        return str;
-    }
-
-    private double convertStrToDouble(String str) {
-
-
-        double strToDouble = Double.parseDouble(str);
-        return strToDouble;
-    }
-
-    private String convertDoubleToStr(double doubleToStr) {
-
-        String str = Double.toString(doubleToStr);
-        return str;
     }
 
 }

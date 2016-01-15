@@ -5,7 +5,6 @@ import RobotCenter.model.PanelTexts;
 import RobotCenter.model.RobotData;
 import RobotCenter.model.TypeConverter;
 import RobotCenter.view.MainGui;
-import RobotCenter.view.RobotConnectedGui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,7 +21,6 @@ public class MainController {
 
     private MainGui mainGui;
     private PanelTexts panelTexts = new PanelTexts();
-    private TypeConverter typeConverter;
     private static ServerSocket serverSocket;
     private static Socket robotClientSocket;
     private int maxRobotClientsCount;
@@ -63,7 +61,7 @@ public class MainController {
 
         public void actionPerformed(ActionEvent e) {
 
-            int port = convertPortToInt();
+            int port = TypeConverter.convertStrToInt(mainGui.getPortTextField());
 
             if (port != 0) {
                 if (checkPort(port)) {
@@ -110,9 +108,7 @@ public class MainController {
 
         public void actionPerformed(ActionEvent e) {
 
-            RobotConnectedGui robotConnectedGui = new RobotConnectedGui();
-            addLabelsToConnectedGuiComboBox(robotConnectedGui);
-            RobotConnectedController robotConnectedController = new RobotConnectedController(robotControllers, tabNames, robotDatas, robotClientSocket, mainGui, panelTexts, robotConnectedGui);
+            RobotConnectedController robotConnectedController = new RobotConnectedController(robotControllers, tabNames, robotDatas, robotClientSocket, mainGui, panelTexts);
 
         }
 
@@ -122,7 +118,7 @@ public class MainController {
 
         public void actionPerformed(ActionEvent e) {
 
-            RobotModelsController robotModelsController = new RobotModelsController(mainGui,robotDatas, typeConverter);
+            RobotModelController robotModelsController = new RobotModelController(mainGui,robotDatas);
 
         }
     }
@@ -149,9 +145,7 @@ public class MainController {
 
                         if (robotControllers.size() <= maxRobotClientsCount) {
 
-                            RobotConnectedGui robotConnectedGui = new RobotConnectedGui();
-                            addLabelsToConnectedGuiComboBox(robotConnectedGui);
-                            RobotConnectedController robotConnectedController = new RobotConnectedController(robotControllers, tabNames, robotDatas, robotClientSocket, mainGui, panelTexts, robotConnectedGui);
+                            RobotConnectedController robotConnectedController = new RobotConnectedController(robotControllers, tabNames, robotDatas, robotClientSocket, mainGui, panelTexts);
 
                         } else {
                             robotClientSocket.close();
@@ -168,33 +162,11 @@ public class MainController {
         serverThread.start();
     }
 
-    ///NIEPOTRZEBNE ZAMKNIECIE ZAKLADEK WEWNATRZ KORELORERA ROBOTA
-    private void clearTabPanel() {
-
-        for (int i = tabNames.size() - 1; i > 0; i--) {
-
-            mainGui.removeTabbedPane(tabNames.get(i));
-            tabNames.remove(i);
-        }
-    }
-    /////////////////////////////
-
     private void closeRobotSockets() {
 
         for (int i = robotControllers.size() - 1; i >= 0; i--) {
 
             robotControllers.get(i).closeRobotClient();
-        }
-    }
-
-    private int convertPortToInt() {
-
-        String strPort = mainGui.getPortTextField();
-        try {
-            int intPort = Integer.parseInt(strPort);
-            return intPort;
-        } catch (NumberFormatException e) {
-            return 0;
         }
     }
 
@@ -204,13 +176,6 @@ public class MainController {
             return true;
         } else {
             return false;
-        }
-    }
-
-    private void addLabelsToConnectedGuiComboBox(RobotConnectedGui robotConnectedGui) {
-
-        for (int i = 0; i < robotDatas.size(); i++) {
-            robotConnectedGui.setRobotModelLabelComboBox(robotDatas.get(i).getRobotModel());
         }
     }
 

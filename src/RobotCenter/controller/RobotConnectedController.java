@@ -27,16 +27,17 @@ public class RobotConnectedController {
     private RobotData robotData;
     String tabName;
 
-
-    public RobotConnectedController(List<RobotController> robotControllers, List<String> tabNames,List<RobotData> robotDatas, Socket robotClientSocket, MainGui mainGui, PanelTexts panelTexts, RobotConnectedGui robotConnectedGui) {
+    public RobotConnectedController(List<RobotController> robotControllers, List<String> tabNames,List<RobotData> robotDatas, Socket robotClientSocket, MainGui mainGui, PanelTexts panelTexts) {
 
         this.mainGui = mainGui;
         this.panelTexts = panelTexts;
         this.robotControllers = robotControllers;
         this.robotClientSocket = robotClientSocket;
-        this.robotConnectedGui = robotConnectedGui;
         this.tabNames = tabNames;
         this.robotDatas = robotDatas;
+
+        robotConnectedGui = new RobotConnectedGui();
+        addLabelsToConnectedGuiComboBox();
 
         mainGui.setEnabledMainGui(false);
         robotConnectedGui.setAlertLabel(panelTexts.getAlertLabelText1());
@@ -85,7 +86,6 @@ public class RobotConnectedController {
         }
     }
 
-
     public void closeRobotConnectedController() {
 
         mainGui.setEnabledMainGui(true);
@@ -93,5 +93,10 @@ public class RobotConnectedController {
 
     }
 
+    private void addLabelsToConnectedGuiComboBox() {
 
+        for (int i = 0; i < robotDatas.size(); i++) {
+            robotConnectedGui.setRobotModelLabelComboBox(robotDatas.get(i).getRobotModel());
+        }
+    }
 }

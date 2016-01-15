@@ -5,12 +5,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import  java.io.FileReader;
+import java.io.FileReader;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import  java.lang.Long;
+import java.lang.Long;
 
 /**
  * Created by YapYap on 2016-01-06.
@@ -18,15 +18,14 @@ import  java.lang.Long;
 public class JSONParse {
 
     RobotData robotData;
-    List<RobotData> robotDatas = new ArrayList<RobotData>();
+    List<RobotData> robotDatas = new ArrayList();
 
-    public  JSONParse(){
+    public JSONParse() {
 
         robotDataParse();
     }
 
-
-    private void  robotDataParse() {
+    private void robotDataParse() {
 
         JSONParser parser = new JSONParser();
 
@@ -37,44 +36,41 @@ public class JSONParse {
 
                 JSONObject datas = (JSONObject) object;
 
-                Long robotModelIDLong = (Long) datas.get("RobotModelID");
-                Integer robotModelID = Integer.valueOf(robotModelIDLong.intValue());
+                Integer robotModelID = TypeConverter.convertLongToInt((Long)datas.get("RobotModelID"));
                 System.out.println("RobotModelID:" + robotModelID);
 
                 String robotModel = (String) datas.get("RobotModel");
                 System.out.println("RobotModel:" + robotModel);
 
-                Long axesLong = (Long)datas.get("Axes");
-                Integer axes = Integer.valueOf(axesLong.intValue());
+                Integer axes = TypeConverter.convertLongToInt((Long)datas.get("Axes"));
                 System.out.println("Axes:" + axes);
 
-                JSONObject minJPoseData = (JSONObject)((JSONObject) object).get("MinJPose");
+                JSONObject minJPoseData = (JSONObject) ((JSONObject) object).get("MinJPose");
                 JointPosition minJPose = new JointPosition();
-                System.out.println("MinJPose:" );
-                for(int i=1;i<7;i++){
+                System.out.println("MinJPose:");
+                for (int i = 1; i < 7; i++) {
 
-                    Double axis = (Double) minJPoseData.get("Axis"+i);
+                    Double axis = (Double) minJPoseData.get("Axis" + i);
                     System.out.println("Axis:" + axis);
-                    minJPose.setJointPosition(i,axis);
+                    minJPose.setJointPosition(i, axis);
                 }
 
-                JSONObject maxJPoseData = (JSONObject)((JSONObject) object).get("MaxJPose");
+                JSONObject maxJPoseData = (JSONObject) ((JSONObject) object).get("MaxJPose");
                 JointPosition maxJPose = new JointPosition();
-                System.out.println("MaxJPose:" );
-                for(int i=1;i<7;i++){
+                System.out.println("MaxJPose:");
+                for (int i = 1; i < 7; i++) {
 
-                    Double axis = (Double)  maxJPoseData.get("Axis"+i);
+                    Double axis = (Double) maxJPoseData.get("Axis" + i);
                     System.out.println("Axis:" + axis);
-                    maxJPose.setJointPosition(i,axis);
+                    maxJPose.setJointPosition(i, axis);
                 }
 
-                Long maxSpeedLong = (Long)datas.get("MaxSpeed");
-                Integer maxSpeed = Integer.valueOf(maxSpeedLong.intValue());
+                Integer maxSpeed = TypeConverter.convertLongToInt((Long)datas.get("MaxSpeed"));
                 System.out.println("MaxSpeed:" + maxSpeed);
 
                 System.out.println("\n");
 
-                robotData = new RobotData(robotModelID, robotModel,axes, minJPose, maxJPose, maxSpeed);
+                robotData = new RobotData(robotModelID, robotModel, axes, minJPose, maxJPose, maxSpeed);
                 robotDatas.add(robotData);
 
             }
@@ -85,13 +81,10 @@ public class JSONParse {
         }
     }
 
-        public List<RobotData> getRobotDatasList(){
+    public List<RobotData> getRobotDatasList() {
 
         return robotDatas;
 
     }
-
-
-
 
 }

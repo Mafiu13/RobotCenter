@@ -17,8 +17,8 @@ public class PanelTexts {
     private String alertLabelText3 = "Robot's Name Cannot Be Empty!";
     private String alertLabelText4 = "Robot's Name Already Exists!";
     private String moveAlertLabelText1 = "";
-    private String moveAlertLabelText2 = "Joint Position Out Of Range!";
-    private String moveAlertLabelText3 = "Joint Posiiton Must Be A Number!";
+    private String moveAlertLabelText2 = "Position/Speed Out Of Range!";
+    private String moveAlertLabelText3 = "Position/Speed Must Be A Number!";
     private String moveAlertLabelText4 = "You Can Now Safely Move Robot!";
 
     public String getInformationLabelText1() {

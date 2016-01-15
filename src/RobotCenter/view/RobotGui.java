@@ -42,18 +42,13 @@ public class RobotGui {
     private JLabel robotMessageLabel;
     private JLabel moveAlertLabel;
     private JButton moveRobotButton;
-    private JTextField SpeedTextField;
+    private JTextField speedTextField;
     private JButton animationButton;
     private JLabel SpeedLabel;
 
     public RobotGui(String robotName) {
 
         setRobotClientLabel(robotName);
-       /* JFrame frame = new JFrame("RobotCenter");
-        frame.setContentPane(robotGuiPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);*/
     }
 
     public void addApplyListener(ActionListener listenForApplyButton) {
@@ -81,7 +76,7 @@ public class RobotGui {
         moveRobotButton.setEnabled(flag);
     }
 
-    public void setEndableApplyButton(boolean flag){
+    public void setEnableApplyButton(boolean flag){
 
         applyButton.setEnabled(flag);
     }
@@ -127,39 +122,36 @@ public class RobotGui {
         }
     }
 
-    public void setAxis1CJPoseTextField(String axis1CJPose) {
-
-        axis1CJPoseTextField.setText(axis1CJPose);
-    }
-
-    public void setAxis2CJPoseTextField(String axis2CJPose) {
-
-        axis2CJPoseTextField.setText(axis2CJPose);
-    }
-
-    public void setAxis3CJPoseTextField(String axis3CJPose) {
-
-        axis3CJPoseTextField.setText(axis3CJPose);
-    }
-
-    public void setAxis4CJPoseTextField(String axis4CJPose) {
-
-        axis4CJPoseTextField.setText(axis4CJPose);
-    }
-
-    public void setAxis5CJPoseTextField(String axis5CJPose) {
-
-        axis5CJPoseTextField.setText(axis5CJPose);
-    }
-
-    public void setAxis6CJPoseTextField(String axis6CJPose) {
-
-        axis6CJPoseTextField.setText(axis6CJPose);
-    }
-
     public void setRobotMessageLabel(String robotMessage) {
 
         robotMessageLabel.setText(robotMessage);
+    }
+
+    public void setAxisMJPoseTextField(int i, String axisMJPose) {
+
+        switch (i) {
+
+            case 1:
+                axis1MJPoseTextField.setText(axisMJPose);
+                break;
+            case 2:
+                axis2MJPoseTextField.setText(axisMJPose);
+                break;
+            case 3:
+                axis3MJPoseTextField.setText(axisMJPose);
+                break;
+            case 4:
+                axis4MJPoseTextField.setText(axisMJPose);
+                break;
+            case 5:
+                axis5MJPoseTextField.setText(axisMJPose);
+                break;
+            case 6:
+                axis6MJPoseTextField.setText(axisMJPose);
+                break;
+            default:
+
+        }
     }
 
     public String getAxisMJPoseTextField(int i) {
@@ -196,6 +188,12 @@ public class RobotGui {
                 return "0";
         }
     }
+
+    public String getSpeedTextField(){
+
+        return speedTextField.getText();
+    }
+
 
     public void setColorAxisMJPoseTextField(int i, boolean color) {
 
@@ -246,55 +244,20 @@ public class RobotGui {
         }
     }
 
-    public String getAxis1MJPoseTextField() {
+    public  void setColorSpeedTextField(boolean color){
+        if(color){
+            speedTextField.setForeground(Color.BLACK);
+        }
+        else {
+            speedTextField.setForeground(Color.RED);
+        }
 
-        String axis1MJPose = axis1MJPoseTextField.getText();
-        return axis1MJPose;
     }
 
-    public String getAxis2MJPoseTextField() {
-
-        String axis2MJPose = axis2MJPoseTextField.getText();
-        return axis2MJPose;
-    }
-
-    public String getAxis3MJPoseTextField() {
-
-        String axis3MJPose = axis3MJPoseTextField.getText();
-        return axis3MJPose;
-    }
-
-    public String getAxis4MJPoseTextField() {
-
-        String axis4MJPose = axis4MJPoseTextField.getText();
-        return axis4MJPose;
-    }
-
-    public String getAxis5MJPoseTextField() {
-
-        String axis5MJPose = axis5MJPoseTextField.getText();
-        return axis5MJPose;
-    }
-
-    public String getAxis6MJPoseTextField() {
-
-        String axis6MJPose = axis6MJPoseTextField.getText();
-        return axis6MJPose;
-    }
-
-    public JPanel getRobotGuiPanel() {
+    public JPanel getRobotGuiPanel(){
 
         return robotGuiPanel;
     }
-
-
-    ///////////////////////////////////////
-    /////Pomoc
-    public void setJPose(String JPose) {
-
-        axis1CJPoseTextField.setText(JPose);
-    }
-////////////////////////////////////////////////
 
 
 }

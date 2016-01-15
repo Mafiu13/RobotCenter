@@ -12,18 +12,16 @@ import java.util.List;
 /**
  * Created by YapYap on 2016-01-15.
  */
-public class RobotModelsController {
+public class RobotModelController {
 
     private MainGui mainGui;
     private RobotModelGui robotModelGui;
     private List<RobotData> robotDatas;
-    private TypeConverter typeConverter;
 
-    public RobotModelsController(MainGui mainGui, List<RobotData> robotDatas, TypeConverter typeConverter) {
+    public RobotModelController(MainGui mainGui, List<RobotData> robotDatas) {
 
         this.mainGui = mainGui;
         this.robotDatas = robotDatas;
-        this.typeConverter = typeConverter;
         mainGui.setEnableRobotModelsButton(false);
 
         robotModelGui = new RobotModelGui();
@@ -53,17 +51,16 @@ public class RobotModelsController {
 
     private void addRobotModelInformation(int idx){
 
-        robotModelGui.setAxesInfoLabel("5");
 
-        String lel = Integer.toString(robotDatas.get(idx).getAxes());
-        robotModelGui.setAxesInfoLabel(lel);
+        robotModelGui.setAxesInfoLabel(TypeConverter.convertIntToStr(robotDatas.get(idx).getAxes()));
+
         for (int i = 1; i < 7; i++) {
 
             robotModelGui.setAxisMinJPoseTextField(i,robotDatas.get(idx).getMinJPose().getStrAxis(i));
             robotModelGui.setAxisMaxJPoseTextField(i,robotDatas.get(idx).getMaxJPose().getStrAxis(i));
         }
 
-        robotModelGui.setMaxSpeedTextField(convertIntToStr(robotDatas.get(idx).getMaxSpeed()));
+        robotModelGui.setMaxSpeedTextField(TypeConverter.convertIntToStr(robotDatas.get(idx).getMaxSpeed()));
 
     }
 
@@ -79,12 +76,6 @@ public class RobotModelsController {
 
         robotModelGui.closeRobotModelsGuiFrame();
         mainGui.setEnableRobotModelsButton(true);
-    }
-
-    public String convertIntToStr(int intToStr) {
-
-        String str = Integer.toString(intToStr);
-        return str;
     }
 
 }

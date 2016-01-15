@@ -6,38 +6,35 @@ package RobotCenter.model;
 public class TypeConverter {
 
 
-    public int convertStrToInt(String str) {
+    public static int convertStrToInt(String str) {
 
-        try {
             int strToInt = Integer.parseInt(str);
             return strToInt;
-        } catch (NumberFormatException e) {
-            return 0;
-        }
     }
 
-    public String convertIntToStr(int intToStr) {
+    public static String convertIntToStr(Integer intToStr) {
 
         String str = Integer.toString(intToStr);
         return str;
     }
 
-    public double convertStrToDouble(String str) {
+    public static double convertStrToDouble(String str) {
 
 
         double strToDouble = Double.parseDouble(str);
         return strToDouble;
     }
 
-    public String convertDoubleToStr(double doubleToStr) {
+    public static String convertDoubleToStr(Double doubleToStr) {
 
         String str = Double.toString(doubleToStr);
         return str;
     }
 
+    public  static Integer convertLongToInt(Long longToInt){
 
+        return longToInt.intValue();
 
-
-
+    }
 
 }

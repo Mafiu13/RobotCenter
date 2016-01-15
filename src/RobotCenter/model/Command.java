@@ -5,4 +5,9 @@ package RobotCenter.model;
  */
 public enum Command {
     MOVE, STOP
+
+
+
+
+
 }

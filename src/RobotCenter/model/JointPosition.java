@@ -14,6 +14,10 @@ public class JointPosition {
     private double axis5;
     private double axis6;
 
+    public JointPosition() {
+
+    }
+
     public JointPosition(double axis1, double axis2, double axis3, double axis4, double axis5, double axis6) {
 
         this.axis1 = axis1;
@@ -22,10 +26,6 @@ public class JointPosition {
         this.axis4 = axis4;
         this.axis5 = axis5;
         this.axis6 = axis6;
-
-    }
-
-    public JointPosition() {
 
     }
 
@@ -75,78 +75,22 @@ public class JointPosition {
 
     public String getStrAxis(int i) {
 
-        String axis = "ERROR";
         switch (i) {
             case (1):
-                try {
-                    axis1 = Double.parseDouble(axis);
-                    return axis;
-                } catch (NumberFormatException e) {
-                    return "ERROR";
-                }
+                return TypeConverter.convertDoubleToStr(axis1);
             case (2):
-                try {
-                    axis2 = Double.parseDouble(axis);
-                    return axis;
-                } catch (NumberFormatException e) {
-                    return "ERROR";
-                }
+                return TypeConverter.convertDoubleToStr(axis2);
             case (3):
-                try {
-                    axis3 = Double.parseDouble(axis);
-                    return axis;
-                } catch (NumberFormatException e) {
-                    return "ERROR";
-                }
+                return TypeConverter.convertDoubleToStr(axis3);
             case (4):
-                try {
-                    axis4 = Double.parseDouble(axis);
-                    return axis;
-                } catch (NumberFormatException e) {
-                    return "ERROR";
-                }
+                return TypeConverter.convertDoubleToStr(axis4);
             case (5):
-                try {
-                    axis5 = Double.parseDouble(axis);
-                    return axis;
-                } catch (NumberFormatException e) {
-                    return "ERROR";
-                }
+                return TypeConverter.convertDoubleToStr(axis5);
             case (6):
-                try {
-                    axis6 = Double.parseDouble(axis);
-                    return axis;
-                } catch (NumberFormatException e) {
-                    return "ERROR";
-                }
+                return TypeConverter.convertDoubleToStr(axis6);
             default:
                 return "ERROR";
-
         }
-    }
-
-    public double getAxis1() {
-        return axis1;
-    }
-
-    public double getAxis2() {
-        return axis2;
-    }
-
-    public double getAxis3() {
-        return axis3;
-    }
-
-    public double getAxis4() {
-        return axis4;
-    }
-
-    public double getAxis5() {
-        return axis5;
-    }
-
-    public double getAxis6() {
-        return axis6;
     }
 
 }
