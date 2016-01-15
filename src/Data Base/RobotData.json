@@ -5,6 +5,7 @@
     {
       "RobotModelID": 0,
       "RobotModel": "M-10iA",
+      "Axes": 6,
       "MinJPose": {
         "Axis1": -170.0,
         "Axis2": -125.0,
@@ -21,11 +22,13 @@
         "Axis5": 140.0,
         "Axis6": 270.0
       },
+      "MaxSpeed": 10000,
       
     },
     {
       "RobotModelID": 1,
       "RobotModel": "LR Mate 200iC",
+      "Axes": 6,
       "MinJPose": {
         "Axis1": -170.0,
         "Axis2": -100.0,
@@ -42,6 +45,7 @@
         "Axis5": 120.0,
         "Axis6": 360.0
       },
+      "MaxSpeed": 10000,
       
     }
   ]

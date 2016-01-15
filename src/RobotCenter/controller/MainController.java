@@ -3,6 +3,7 @@ package RobotCenter.controller;
 import RobotCenter.model.JSONParse;
 import RobotCenter.model.PanelTexts;
 import RobotCenter.model.RobotData;
+import RobotCenter.model.TypeConverter;
 import RobotCenter.view.MainGui;
 import RobotCenter.view.RobotConnectedGui;
 
@@ -21,6 +22,7 @@ public class MainController {
 
     private MainGui mainGui;
     private PanelTexts panelTexts = new PanelTexts();
+    private TypeConverter typeConverter;
     private static ServerSocket serverSocket;
     private static Socket robotClientSocket;
     private int maxRobotClientsCount;
@@ -36,36 +38,24 @@ public class MainController {
         this.mainGui = mainGui;
 
         maxRobotClientsCount = 3;
-        robotControllers = new ArrayList<RobotController>(maxRobotClientsCount);
-        tabNames = new ArrayList<String>(maxRobotClientsCount);
+        robotControllers = new ArrayList(maxRobotClientsCount);
+        tabNames = new ArrayList(maxRobotClientsCount);
         tabNames.add("Main Menu");
 
         JSONParse jsonParse = new JSONParse();
         this.robotDatas = jsonParse.getRobotDatasList();
-
-        ///////////////////////////////////////////////////////////////////////////
-/*        for(int i = 0;i<robotDatas.size();i++){
-
-            System.out.println("RobotModelID:" + robotDatas.get(i).getRobotModelID()+ "\n");
-            System.out.println("RobotModel:" + robotDatas.get(i).getRobotModel()+ "\n");
-            System.out.println("MinJPose:" + robotDatas.get(i).getMinJPose()+ "\n");
-            System.out.println("MaxJPose:" + robotDatas.get(i).getMaxJPose()+ "\n");
-
-            System.out.println("Kolejny Model!" +"\n");
-
-        }*/
-        //////////////////////////////////////////////////////////
 
         mainGui.setInformationLabel(panelTexts.getInformationLabelText1());
         mainGui.setNewRobotLabel(panelTexts.getNewRobotLabelText3());
         mainGui.setPortTextField(defaultPort);
         mainGui.setEnableCreateServerButton();
         mainGui.setEnablePortTextField(true);
-        mainGui.setEnableConfigurationRobotButton(false);
+        mainGui.setEnableConfigureRobotButton(false);
 
         mainGui.addCreateServerListener(new createServer());
         mainGui.addCloseServerListener(new closeServer());
-        mainGui.addConfigurateRobotListener(new configurateRobot());
+        mainGui.addConfigureRobotListener(new configureRobot());
+        mainGui.addRobotModelsListener(new robotModels());
         mainGui.addExitListener(new exit());
     }
 
@@ -110,13 +100,13 @@ public class MainController {
             mainGui.setNewRobotLabel(panelTexts.getNewRobotLabelText3());
             mainGui.setEnablePortTextField(true);
             mainGui.setEnableCreateServerButton();
-            mainGui.setEnableConfigurationRobotButton(false);
+            mainGui.setEnableConfigureRobotButton(false);
 
         }
 
     }
 
-    class configurateRobot implements ActionListener {
+    class configureRobot implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
 
@@ -126,6 +116,15 @@ public class MainController {
 
         }
 
+    }
+
+    class robotModels implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+
+            RobotModelsController robotModelsController = new RobotModelsController(mainGui,robotDatas, typeConverter);
+
+        }
     }
 
     class exit implements ActionListener {
@@ -169,6 +168,7 @@ public class MainController {
         serverThread.start();
     }
 
+    ///NIEPOTRZEBNE ZAMKNIECIE ZAKLADEK WEWNATRZ KORELORERA ROBOTA
     private void clearTabPanel() {
 
         for (int i = tabNames.size() - 1; i > 0; i--) {
@@ -177,6 +177,7 @@ public class MainController {
             tabNames.remove(i);
         }
     }
+    /////////////////////////////
 
     private void closeRobotSockets() {
 
@@ -185,7 +186,6 @@ public class MainController {
             robotControllers.get(i).closeRobotClient();
         }
     }
-
 
     private int convertPortToInt() {
 
@@ -213,6 +213,5 @@ public class MainController {
             robotConnectedGui.setRobotModelLabelComboBox(robotDatas.get(i).getRobotModel());
         }
     }
-
 
 }

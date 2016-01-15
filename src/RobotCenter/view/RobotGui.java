@@ -42,6 +42,9 @@ public class RobotGui {
     private JLabel robotMessageLabel;
     private JLabel moveAlertLabel;
     private JButton moveRobotButton;
+    private JTextField SpeedTextField;
+    private JButton animationButton;
+    private JLabel SpeedLabel;
 
     public RobotGui(String robotName) {
 
@@ -78,6 +81,10 @@ public class RobotGui {
         moveRobotButton.setEnabled(flag);
     }
 
+    public void setEndableApplyButton(boolean flag){
+
+        applyButton.setEnabled(flag);
+    }
     public void setRobotClientLabel(String robotClient) {
 
         robotClientLabel.setText(robotClient);

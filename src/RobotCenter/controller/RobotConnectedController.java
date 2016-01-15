@@ -59,7 +59,7 @@ public class RobotConnectedController {
                     robotGui = new RobotGui(tabName);
                     mainGui.addTabbedPane(robotGui.getRobotGuiPanel(), tabName);
                     mainGui.setNewRobotLabel(panelTexts.getNewRobotLabelText1());
-                    mainGui.setEnableConfigurationRobotButton(false);
+                    mainGui.setEnableConfigureRobotButton(false);
                     tabNames.add(tabName);
                     RobotController robotController;
                     (robotController = new RobotController(mainGui, robotGui, robotClientSocket, robotControllers, tabNames, tabName, panelTexts,robotData)).start();
@@ -80,7 +80,7 @@ public class RobotConnectedController {
         public void actionPerformed(ActionEvent e) {
 
             mainGui.setNewRobotLabel(panelTexts.getNewRobotLabelText2());
-            mainGui.setEnableConfigurationRobotButton(true);
+            mainGui.setEnableConfigureRobotButton(true);
             closeRobotConnectedController();
         }
     }

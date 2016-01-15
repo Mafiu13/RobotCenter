@@ -85,21 +85,21 @@ public class RobotController extends Thread {
         sendStringMessage("Start communication");
 
 
-            while (flag) {
+        while (flag) {
 
-                synchronized (this) {
-                    for (int i = 1; i < 7; i++) {
+            synchronized (this) {
+                for (int i = 1; i < 7; i++) {
 
-                        String cJPoseStr = receiveStringMessage(inputStream);
-                        robotGui.setAxisCJPoseTextField(i, cJPoseStr);
-                        System.out.println("Axis" + i + ":" + cJPoseStr);
-                        currentJointPosition.setJointPosition(i, convertStrToDouble(cJPoseStr));
-                        //sendStringMessage("Odebrano JPOS" + i);
-                    }
-
-                    sendStringMessage("JPoseSet");
+                    String cJPoseStr = receiveStringMessage(inputStream);
+                    robotGui.setAxisCJPoseTextField(i, cJPoseStr);
+                    System.out.println("Axis" + i + ":" + cJPoseStr);
+                    currentJointPosition.setJointPosition(i, convertStrToDouble(cJPoseStr));
+                    //sendStringMessage("Odebrano JPOS" + i);
                 }
-                synchronized (this){
+
+                sendStringMessage("JPoseSet");
+            }
+            synchronized (this){
                 sendStringMessage(command);
 
                 if (moveFlag) {
@@ -108,7 +108,7 @@ public class RobotController extends Thread {
 
 
             }
-            }
+        }
 
 
     }
@@ -138,6 +138,8 @@ public class RobotController extends Thread {
             command = "1";
             moveFlag = true;
             robotGui.setRobotMessageLabel("Robot is moving");
+            robotGui.setEnableMoveRobotButton(false);
+            robotGui.setEndableApplyButton(false);
         }
     }
 
@@ -157,6 +159,8 @@ public class RobotController extends Thread {
             closeRobotClient();
         }
     }
+
+    //USUNAC SEND I RECEIVE INT MESSAGE!!! NIEPOTRZEBNE
 
     private void sendStringMessage(String messsage) {
 
@@ -241,7 +245,7 @@ public class RobotController extends Thread {
 
         command = "0";
         moveFlag = false;
-        robotGui.setEnableMoveRobotButton(false);
+
 
         for (int i = 1; i < 7; i++) {
 
@@ -252,10 +256,12 @@ public class RobotController extends Thread {
         String lololo = receiveStringMessage(inputStream);
         robotGui.setRobotMessageLabel(lololo);
         System.out.println("AFTER MOVE CLIENT SENDED:" + lololo);
+        robotGui.setEndableApplyButton(true);
 
 
     }
 
+    /////ZROBIC MODEL DO SPRAWDZANIA ZAKRESOW!!!
 
 
     private boolean checkIfMoveCommandIsNumber() {
@@ -317,6 +323,9 @@ public class RobotController extends Thread {
             e1.printStackTrace();
         }
     }
+
+
+    ////ZROBIC MODEL DO KONWERSJY TYPOW!!!!!
 
     private int convertStrToInt(String str) {
 

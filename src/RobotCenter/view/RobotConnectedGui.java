@@ -25,6 +25,7 @@ public class RobotConnectedGui {
         frame.setContentPane(robotConnectedGuiPanel);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
     }

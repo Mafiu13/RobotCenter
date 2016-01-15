@@ -9,7 +9,7 @@ public class RobotService {
     private JointPosition moveToJointPosition;
     private JointPosition maxJPose;
     private JointPosition minJPose;
-
+    private int speed;
 
     public RobotService(RobotData robotData) {
 
@@ -65,6 +65,12 @@ public class RobotService {
         }
     }
 
+    public boolean checkIfInSpeedRange(int speed) {
+        if (!(speed > 100 && speed < robotData.getMaxSpeed())) {
+            return false;
+        }
+        return true;
+    }
 
     public boolean checkIfInJPoseRangeAxis1(JointPosition moveToJointPosition) {
 

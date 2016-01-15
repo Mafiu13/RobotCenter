@@ -7,18 +7,18 @@ public class RobotData {
 
     private int robotModelID;
     private String robotModel;
+    private int axes;
     private JointPosition minJPose, maxJPose;
-    private int minSpeed, maxSpeed;
+    private int maxSpeed;
 
-    public RobotData(int robotModelID, String robotModel, JointPosition minJPose, JointPosition maxJPose) {
+    public RobotData(int robotModelID, String robotModel, int axes, JointPosition minJPose, JointPosition maxJPose, int maxSpeed) {
 
         this.robotModelID = robotModelID;
         this.robotModel = robotModel;
+        this.axes = axes;
         this.maxJPose = maxJPose;
         this.minJPose = minJPose;
-        //this.maxSpeed = maxSpeed;
-        //this.minSpeed = minSpeed;
-
+        this.maxSpeed = maxSpeed;
     }
 
     public int getRobotModelID() {
@@ -27,6 +27,10 @@ public class RobotData {
 
     public String getRobotModel() {
         return robotModel;
+    }
+
+    public int getAxes() {
+        return axes;
     }
 
     public JointPosition getMaxJPose() {
@@ -39,10 +43,6 @@ public class RobotData {
 
     public int getMaxSpeed() {
         return maxSpeed;
-    }
-
-    public int getMinSpeed() {
-        return minSpeed;
     }
 
 

@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="mainGuiPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="916" height="471"/>
+      <xy x="20" y="20" width="916" height="524"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -22,7 +22,7 @@
         </clientProperties>
         <border type="none"/>
         <children>
-          <grid id="e8c59" binding="mainMenuPanel" layout-manager="GridLayoutManager" row-count="15" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="e8c59" binding="mainMenuPanel" layout-manager="GridLayoutManager" row-count="17" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="10" left="10" bottom="10" right="10"/>
             <constraints>
               <tabbedpane title="Main Menu"/>
@@ -69,7 +69,7 @@
               </component>
               <component id="dc7f7" class="javax.swing.JButton" binding="exitButton" default-binding="true">
                 <constraints>
-                  <grid row="13" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                  <grid row="15" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="32"/>
                   </grid>
                 </constraints>
@@ -90,7 +90,7 @@
               </component>
               <vspacer id="8ec22">
                 <constraints>
-                  <grid row="14" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                  <grid row="16" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="14"/>
                   </grid>
                 </constraints>
@@ -184,6 +184,23 @@
                   <text value="Configurate Robot"/>
                 </properties>
               </component>
+              <component id="46809" class="javax.swing.JButton" binding="robotModelsButton">
+                <constraints>
+                  <grid row="13" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="32"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value="Robot Models"/>
+                </properties>
+              </component>
+              <vspacer id="55fdb">
+                <constraints>
+                  <grid row="14" column="0" row-span="1" col-span="2" vsize-policy="1" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="10"/>
+                  </grid>
+                </constraints>
+              </vspacer>
             </children>
           </grid>
         </children>

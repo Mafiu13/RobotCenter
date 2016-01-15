@@ -21,6 +21,7 @@ public class MainGui {
     private JLabel newRobotLabel;
     private JLabel portLabel;
     private JButton configurateRobotButton;
+    private JButton robotModelsButton;
     private JFrame frame;
 
     public MainGui() {
@@ -29,6 +30,7 @@ public class MainGui {
         frame.setContentPane(mainGuiPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
     }
@@ -53,9 +55,14 @@ public class MainGui {
         exitButton.addActionListener(listenForExitButton);
     }
 
-    public void addConfigurateRobotListener(ActionListener listenForConfigurateRobotButton) {
+    public void addConfigureRobotListener(ActionListener listenForConfigureRobotButton) {
 
-        configurateRobotButton.addActionListener(listenForConfigurateRobotButton);
+        configurateRobotButton.addActionListener(listenForConfigureRobotButton);
+    }
+
+    public void addRobotModelsListener(ActionListener listenForRobotModelsButton) {
+
+        robotModelsButton.addActionListener(listenForRobotModelsButton);
     }
 
     public void setPortTextField(String port) {
@@ -105,9 +112,14 @@ public class MainGui {
         closeServerButton.setEnabled(true);
     }
 
-    public void setEnableConfigurationRobotButton(boolean flag) {
+    public void setEnableConfigureRobotButton(boolean flag) {
 
         configurateRobotButton.setEnabled(flag);
+    }
+
+    public  void setEnableRobotModelsButton(boolean flag){
+
+        robotModelsButton.setEnabled(flag);
     }
 
 

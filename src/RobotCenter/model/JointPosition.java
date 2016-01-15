@@ -1,5 +1,7 @@
 package RobotCenter.model;
 
+import java.awt.geom.Arc2D;
+
 /**
  * Created by YapYap on 2015-12-31.
  */
@@ -23,51 +25,103 @@ public class JointPosition {
 
     }
 
-    public  JointPosition(){
+    public JointPosition() {
 
     }
 
-    public void setJointPosition(int i, double axis){
+    public void setJointPosition(int i, double axis) {
 
-        switch(i) {
-            case(1):
+        switch (i) {
+            case (1):
                 this.axis1 = axis;
                 break;
-            case(2):
+            case (2):
                 this.axis2 = axis;
                 break;
-            case(3):
+            case (3):
                 this.axis3 = axis;
                 break;
-            case(4):
+            case (4):
                 this.axis4 = axis;
                 break;
-            case(5):
+            case (5):
                 this.axis5 = axis;
                 break;
-            case(6):
+            case (6):
                 this.axis6 = axis;
                 break;
         }
     }
 
-    public double getAxis(int i){
+    public double getAxis(int i) {
 
-        switch(i) {
-            case(1):
+        switch (i) {
+            case (1):
                 return axis1;
-            case(2):
+            case (2):
                 return axis2;
-            case(3):
+            case (3):
                 return axis3;
-            case(4):
+            case (4):
                 return axis4;
-            case(5):
+            case (5):
                 return axis5;
-            case(6):
+            case (6):
                 return axis6;
             default:
                 return 0;
+        }
+    }
+
+    public String getStrAxis(int i) {
+
+        String axis = "ERROR";
+        switch (i) {
+            case (1):
+                try {
+                    axis1 = Double.parseDouble(axis);
+                    return axis;
+                } catch (NumberFormatException e) {
+                    return "ERROR";
+                }
+            case (2):
+                try {
+                    axis2 = Double.parseDouble(axis);
+                    return axis;
+                } catch (NumberFormatException e) {
+                    return "ERROR";
+                }
+            case (3):
+                try {
+                    axis3 = Double.parseDouble(axis);
+                    return axis;
+                } catch (NumberFormatException e) {
+                    return "ERROR";
+                }
+            case (4):
+                try {
+                    axis4 = Double.parseDouble(axis);
+                    return axis;
+                } catch (NumberFormatException e) {
+                    return "ERROR";
+                }
+            case (5):
+                try {
+                    axis5 = Double.parseDouble(axis);
+                    return axis;
+                } catch (NumberFormatException e) {
+                    return "ERROR";
+                }
+            case (6):
+                try {
+                    axis6 = Double.parseDouble(axis);
+                    return axis;
+                } catch (NumberFormatException e) {
+                    return "ERROR";
+                }
+            default:
+                return "ERROR";
+
         }
     }
 
