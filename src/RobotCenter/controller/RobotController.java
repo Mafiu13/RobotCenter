@@ -31,9 +31,11 @@ public class RobotController extends Thread {
     private String tabName;
     private RobotData robotData;
     private RobotService robotService;
-    private boolean flag = true;
-    private boolean moveFlag = false;
-    private String command = "0";
+    private Command command;
+    private boolean continueFlag;
+    private boolean moveFlag;
+    private boolean stopFlag;
+    private boolean abortFlag;
     private RobotControllerValidator robotControllerValidator;
     private int speed;
 
@@ -57,15 +59,19 @@ public class RobotController extends Thread {
         moveToJointPosition = new JointPosition(0, 0, 0, 0, 0, 0);
         currentJointPosition = new JointPosition(0, 0, 0, 0, 0, 0);
 
+        command = Command.CONTINUE;
+        setStartFlags();
+
         robotService = new RobotService(robotData);
         robotControllerValidator = new RobotControllerValidator(moveToJointPosition, robotGui, panelTexts, robotService);
 
 
         robotGui.setEnableMoveRobotButton(false);
+/*        robotGui.setEnableStopRobotButton(false);*/
 
         robotGui.addApplyListener(new apply());
         robotGui.addMoveRobotListener(new moveRobot());
-        robotGui.addStopRobotListener(new stopRobot());
+        /*robotGui.addStopRobotListener(new stopRobot());*/
         robotGui.addDisconnectRobotListener(new disconnectRobot());
     }
 
@@ -84,7 +90,7 @@ public class RobotController extends Thread {
         sendStringMessage("Start communication");
 
 
-        while (flag) {
+        while (continueFlag) {
 
             synchronized (this) {
                 for (int i = 1; i < 7; i++) {
@@ -93,25 +99,26 @@ public class RobotController extends Thread {
                     robotGui.setAxisCJPoseTextField(i, cJPoseStr);
                     System.out.println("Axis" + i + ":" + cJPoseStr);
                     currentJointPosition.setJointPosition(i, TypeConverter.convertStrToDouble(cJPoseStr));
-                    //sendStringMessage("Odebrano JPOS" + i);
                 }
 
                 sendStringMessage("JPoseSet");
             }
             synchronized (this){
-                sendStringMessage(command);
+
+                sendStringMessage(command.getCommandValue());
 
                 if (moveFlag) {
                     moveRobot(inputStream);
                 }
-
+               /* if(stopFlag){
+                    stopRobot(inputStream);
+                }*/
 
             }
         }
 
 
     }
-
 
     class apply implements ActionListener {
 
@@ -141,20 +148,11 @@ public class RobotController extends Thread {
 
         public void actionPerformed(ActionEvent e) {
 
-            command = "1";
+            command = Command.MOVE;
             moveFlag = true;
             robotGui.setRobotMessageLabel("Robot is moving");
             robotGui.setEnableMoveRobotButton(false);
             robotGui.setEnableApplyButton(false);
-        }
-    }
-
-
-    class stopRobot implements ActionListener {
-
-        public void actionPerformed(ActionEvent e) {
-
-            command = "2";
         }
     }
 
@@ -166,45 +164,9 @@ public class RobotController extends Thread {
         }
     }
 
-
-    private void sendStringMessage(String message) {
-
-        PrintWriter outputStream = null;
-        try {
-            outputStream = new PrintWriter(robotClientSocket.getOutputStream());
-        } catch (IOException e) {
-            if (flag)
-                e.printStackTrace();
-        }
-
-
-        outputStream.println(message);
-        outputStream.flush();
-    }
-
-    private String receiveStringMessage(BufferedReader inputStream) {
-
-
-        String message = null;
-
-        while (message == null) {
-            try {
-                message = inputStream.readLine();
-            } catch (IOException e) {
-                //e.printStackTrace();
-
-                ////////////ZAMKNIECIE CLIENTSOCKETA JEZELI BRAK ODPOWIEDZI
-                if (flag)
-                    closeRobotClient();
-            }
-        }
-
-        return message;
-    }
-
     private void moveRobot(BufferedReader inputStream){
 
-        command = "0";
+        command = Command.CONTINUE;
         moveFlag = false;
 
 
@@ -214,17 +176,44 @@ public class RobotController extends Thread {
             System.out.println(robotGui.getAxisMJPoseTextField(i));
             moveToJointPosition.setJointPosition(i,TypeConverter.convertStrToDouble(robotGui.getAxisMJPoseTextField(i)));
         }
-        String lololo = receiveStringMessage(inputStream);
-        robotGui.setRobotMessageLabel(lololo);
-        System.out.println("AFTER MOVE CLIENT SENDED:" + lololo);
+        robotGui.setRobotMessageLabel(receiveStringMessage(inputStream));
         robotGui.setEnableApplyButton(true);
+    }
 
+    private void sendStringMessage(String message) {
 
+        PrintWriter outputStream = null;
+        try {
+            outputStream = new PrintWriter(robotClientSocket.getOutputStream());
+        } catch (IOException e) {
+            if (continueFlag)
+                e.printStackTrace();
+        }
+
+        outputStream.println(message);
+        outputStream.flush();
+    }
+
+    private String receiveStringMessage(BufferedReader inputStream) {
+
+        String message = null;
+
+        while (message == null) {
+            try {
+                message = inputStream.readLine();
+            } catch (IOException e) {
+                //e.printStackTrace();
+                ////////////ZAMKNIECIE CLIENTSOCKETA JEZELI BRAK ODPOWIEDZI
+                if (continueFlag)
+                    closeRobotClient();
+            }
+        }
+        return message;
     }
 
     public void closeRobotClient() {
 
-        flag = false;
+        continueFlag = false;
         mainGui.removeTabbedPane(tabName);
 
         tabNames.remove(tabName);
@@ -237,5 +226,41 @@ public class RobotController extends Thread {
             e1.printStackTrace();
         }
     }
+
+    public void setStartFlags(){
+
+        continueFlag = true;
+        moveFlag = false;
+        stopFlag = false;
+        abortFlag = false;
+    }
+
+    ////////////STOPOWANIE ROBOTA ////////////
+
+    /*class stopRobot implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+
+            command = Command.STOP;
+            stopFlag = true;
+            robotGui.setRobotMessageLabel("Robot is stopping");
+            robotGui.setEnableStopRobotButton(false);
+            robotGui.setEnableMoveRobotButton(false);
+            robotGui.setEnableApplyButton(false);
+        }
+    }*/
+
+
+    /*private void stopRobot(BufferedReader inputStream){
+
+        command = Command.CONTINUE;
+        stopFlag = false;
+
+        robotGui.setRobotMessageLabel(receiveStringMessage(inputStream));
+        robotGui.setEnableApplyButton(true);
+        robotGui.setEnableMoveRobotButton(true);
+        robotGui.setEnableStopRobotButton(true);
+
+    }*/
 
 }

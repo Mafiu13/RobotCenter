@@ -61,10 +61,10 @@ public class RobotGui {
         moveRobotButton.addActionListener(listenForMoveRobotButton);
     }
 
-    public void addStopRobotListener(ActionListener listenForStopRobotButton) {
+    /*public void addStopRobotListener(ActionListener listenForStopRobotButton) {
 
         stopRobotButton.addActionListener(listenForStopRobotButton);
-    }
+    }*/
 
     public void addDisconnectRobotListener(ActionListener listenForDisconnectRobotButton) {
 
@@ -80,6 +80,11 @@ public class RobotGui {
 
         applyButton.setEnabled(flag);
     }
+   /* public void setEnableStopRobotButton(boolean flag){
+
+        stopRobotButton.setEnabled(flag);
+    }*/
+
     public void setRobotClientLabel(String robotClient) {
 
         robotClientLabel.setText(robotClient);
