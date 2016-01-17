@@ -117,7 +117,7 @@ public class MainGui {
         configurateRobotButton.setEnabled(flag);
     }
 
-    public  void setEnableRobotModelsButton(boolean flag){
+    public void setEnableRobotModelsButton(boolean flag) {
 
         robotModelsButton.setEnabled(flag);
     }

@@ -1,0 +1,263 @@
+ ------------------------------------------------------------------------------
+----  Section 1: Program and Environment Declaration
+------------------------------------------------------------------------------
+ PROGRAM RobotClient
+%STACKSIZE = 4000
+%NOLOCKGROUP
+%NOPAUSE=ERROR+COMMAND+TPENABLE
+%COMMENT = 	'ROBOT CENTER CLIENT'
+%ENVIRONMENT UIF
+%ENVIRONMENT SYSDEF
+%ENVIRONMENT MEMO
+%ENVIRONMENT KCLOP
+%ENVIRONMENT BYNAM
+%ENVIRONMENT FDEV
+%ENVIRONMENT FLBT
+%ENVIRONMENT REGOPE
+%ENVIRONMENT STRNG
+%ENVIRONMENT PATHOP
+%INCLUDE KLEVCCDF
+%INCLUDE KLEVKEYS
+%INCLUDE KLEVKMSK
+------------------------------------------------------------------------------
+----  Section 2: Constant and Variable Declaration
+------------------------------------------------------------------------------
+CONST
+ AXS = 6			-- number of robot axes
+ SUCCESS = 0		
+ CH_F1 = 1
+VAR
+ STATUS : INTEGER
+ file_var : FILE
+ pth1 :PATH
+ move_to_jpos :JOINTPOS6
+ re_mov_ar :ARRAY[6] OF REAL
+ entry : INTEGER
+ send_str : STRING[128]
+ get_str : STRING[128]
+ str_array : ARRAY [6] OF STRING[128]
+ indx  : INTEGER
+ move_possi : BOOLEAN
+------------------------------------------------------------------------------
+----  Section 3: Routine Declaration
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+----  Section 3-A: chk_stat Declaration
+		  -- Test STATUS
+------------------------------------------------------------------------------
+ROUTINE chk_stat (act_stat: INTEGER)
+
+BEGIN
+
+ IF (act_stat <> SUCCESS) THEN
+  WRITE('ERROR',' ',act_stat,CR)
+ ENDIF
+
+END chk_stat
+------------------------------------------------------------------------------
+----  Section 3-B: StartMenu Declaration
+		  -- Launch starting menu
+------------------------------------------------------------------------------
+ROUTINE StartMenu
+
+BEGIN
+
+ WRITE(CR,'-----PROGRAM-----',CR)
+ WRITE(CR,'---ROBOT CLIENT---',CR)
+ WRITE (CR,'Press F1 to stop the program.')
+ WRITE (CR,'Press F2 to stop connect to RobotCenter',CR)
+
+ WRITE TPFUNC(CHR(137))
+ WRITE TPFUNC('ABORT   CONECT')
+ WAIT FOR TPIN[131]
+ 
+ WRITE TPFUNC(CHR(137))
+ WRITE TPFUNC('ABORT',CHR(129))
+
+END StartMenu
+
+------------------------------------------------------------------------------
+----  Section 3-C: GetJPos Declaration
+		  -- Get current robot POSITION AND convert it TO STRING
+------------------------------------------------------------------------------
+ROUTINE GetJPos
+ -----------------------------------
+VAR
+ jpos : JOINTPOS
+ re_array : ARRAY [6] OF REAL
+ -----------------------------------
+BEGIN
+ 
+ jpos = CURJPOS(0,0)
+ FOR indx = 1 TO AXS DO
+  re_array[indx] = 0.0
+ ENDFOR
+ CNV_JPOS_REL(jpos,re_array,STATUS)
+ chk_stat(STATUS)
+
+ FOR indx = 1 TO AXS DO
+  CNV_REAL_STR (re_array[indx],7,2,str_array[indx])
+ ENDFOR
+
+ -------ON SCREEN------
+ --WRITE('Current robot joints position:',CR)
+ --FOR indx = 1 TO AXS DO
+  --WRITE(indx,'axis ',str_array[indx],CR)
+ --ENDFOR
+ ----------------------
+
+END GetJPos
+
+------------------------------------------------------------------------------
+----  Section 3-D: MoveToJPOS Declaration
+		  -- Convert STRING ARRAY to JPOS and MOVE robot  
+------------------------------------------------------------------------------
+ROUTINE MoveTo( str_mov_ar :ARRAY  OF STRING)
+ --------------------------------
+ BEGIN
+ 	
+ FOR indx = 1 TO AXS DO
+  re_mov_ar[indx] = 0.0
+ ENDFOR
+ 
+ FOR indx = 1 TO AXS DO
+  CNV_STR_REAL (str_mov_ar[indx],re_mov_ar[indx])
+ ENDFOR
+ 
+ CNV_REL_JPOS(re_mov_ar,move_to_jpos,STATUS)
+ IF(STATUS<>0) THEN
+ 	move_possi=FALSE
+ ELSE
+ 	$MOTYPE = JOINT
+ 	$SPEED = 500
+ 	$TERMTYPE = FINE
+ 	MOVE TO move_to_jpos
+ 		
+ ENDIF
+
+END MoveTo
+
+------------------------------------------------------------------------------
+----  Section 3-E: CreateClient Declaration
+		  -- CONNECT TO server AND send robot POSITION
+------------------------------------------------------------------------------
+ROUTINE CreateClient
+ -----------------------------------
+VAR
+ loop : BOOLEAN
+ cont_str : STRING[128]
+ cont_int	 : INTEGER
+ str_mov_ar :ARRAY [6] OF STRING[128]
+ -----------------------------------
+BEGIN
+
+ move_possi = TRUE
+ ------------------------------------------
+ --CONNECT TO SERVER
+ -------------------------------------------
+ StartMenu
+ FORCE_SPMENU(TP_PANEL, SPI_TPUSER, 1)
+ SET_FILE_ATR(file_var, ATR_IA)
+ SET_VAR(entry, '*SYSTEM*','$HOSTC_CFG[1].$SERVER_PORT',9000,STATUS)
+ WRITE('Connecting..',CR)
+ MSG_CONNECT('C1:',STATUS)
+ chk_stat(STATUS)
+ loop = TRUE
+ IF STATUS = 0 THEN
+  WHILE loop = TRUE DO
+   WRITE('Opening FILE..',CR)
+   OPEN FILE file_var('rw','C1:')
+   STATUS = IO_STATUS(file_var) 
+   chk_stat(STATUS)
+   IF STATUS = 0 THEN
+    READ file_var(get_str::31)
+    WRITE(get_str,CR)
+    send_str = 'Robot Connected'
+    WRITE file_var(send_str::15,CHR(13),CHR(10))
+    READ file_var(get_str::21)
+    WRITE(get_str,CR)
+    -------------------------------------------
+    --SEND CURRENT JPOS 
+    -------------------------------------------
+    REPEAT
+    
+    cont_int = 0
+    
+     WRITE('Sending to server current robot position:',CR)
+     GetJPos
+     FOR indx = 1 TO AXS DO
+      WRITE file_var(str_array[indx]::7,CHR(13),CHR(10))	
+     ENDFOR
+     READ file_var(get_str::10)
+     WRITE(get_str,CR)
+     
+     DELAY(1000)
+     
+     READ file_var(cont_str::3)
+     WRITE(cont_str,CR)
+     CNV_STR_INT(cont_str,cont_int)
+     WRITE(cont_int,CR)
+     -----------------------------------
+     --MOVE TO JPOS
+     -----------------------------------
+     IF cont_int = 1 THEN
+     	
+      FOR indx = 1 TO AXS DO
+       READ file_var(str_mov_ar[indx]::9)
+       	WRITE('Axis:',str_mov_ar[indx],CR)
+      ENDFOR
+      
+     MoveTo(str_mov_ar)
+     IF (move_possi = FALSE) THEN
+     	send_str = 'Robot cannot move to JPOS'
+     	WRITE file_var(send_str::25,CHR(13),CHR(10))	
+     ELSE
+     	send_str = 'Robot moved to JPOS'
+     	WRITE file_var(send_str::18,CHR(13),CHR(10))
+     ENDIF
+     
+     move_possi = TRUE
+     
+     ENDIF
+     WRITE('Wysy³am kolejna paczke pozycji',CR)
+    UNTIL (cont_int = 3)
+    ---
+    --IF cont_int = 2 THEN
+     ----------------------------------------
+     ---STOP THE ROBOT---
+     -----------------------------------------
+     --send_str = 'STOP THE ROBOT'
+     --WRITE file_var(send_str::14,CHR(13),CHR(10))
+    --ENDIF
+    WRITE('Closed FILE',CR)
+    CLOSE FILE file_var
+   ELSE
+    loop = FALSE
+   ENDIF
+  ENDWHILE
+  WRITE('Disconnecting..',CR)
+  MSG_DISCO('C1:',STATUS)
+  WRITE('Done.',CR)
+ ENDIF 
+
+END CreateClient
+------------------------------------------------------------------------------
+----  Section 4: Main Program
+------------------------------------------------------------------------------   
+
+BEGIN 
+
+ CONDITION[CH_F1]:
+  WHEN TPIN[129] DO
+  ABORT
+ ENDCONDITION
+ ENABLE CONDITION[CH_F1]
+
+ CreateClient
+
+END RobotClient
+
+ 
+ 
+ 
+ 

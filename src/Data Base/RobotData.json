@@ -1,6 +1,6 @@
 {
   "Project": "Robot Center",
-  "Author": "Mateusz Orzo³",
+  "Author": "Mateusz Orzoï¿½",
   "Robot Data": [
     {
       "RobotModelID": 0,
@@ -23,7 +23,6 @@
         "Axis6": 270.0
       },
       "MaxSpeed": 10000,
-      
     },
     {
       "RobotModelID": 1,
@@ -46,7 +45,6 @@
         "Axis6": 360.0
       },
       "MaxSpeed": 10000,
-      
     }
   ]
 }

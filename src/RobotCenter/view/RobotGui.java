@@ -43,7 +43,7 @@ public class RobotGui {
     private JLabel moveAlertLabel;
     private JButton moveRobotButton;
     private JTextField speedTextField;
-    private JButton animationButton;
+    private JButton graphicViewButton;
     private JLabel SpeedLabel;
 
     public RobotGui(String robotName) {
@@ -66,6 +66,11 @@ public class RobotGui {
         stopRobotButton.addActionListener(listenForStopRobotButton);
     }*/
 
+    public void addGraphicViewListener(ActionListener listenForGraphicViewButton){
+
+        graphicViewButton.addActionListener(listenForGraphicViewButton);
+    }
+
     public void addDisconnectRobotListener(ActionListener listenForDisconnectRobotButton) {
 
         disconnectRobotButton.addActionListener(listenForDisconnectRobotButton);
@@ -76,7 +81,7 @@ public class RobotGui {
         moveRobotButton.setEnabled(flag);
     }
 
-    public void setEnableApplyButton(boolean flag){
+    public void setEnableApplyButton(boolean flag) {
 
         applyButton.setEnabled(flag);
     }
@@ -84,6 +89,11 @@ public class RobotGui {
 
         stopRobotButton.setEnabled(flag);
     }*/
+
+    public void setEnableGraphicViewButton(boolean flag){
+
+        graphicViewButton.setEnabled(flag);
+    }
 
     public void setRobotClientLabel(String robotClient) {
 
@@ -194,7 +204,7 @@ public class RobotGui {
         }
     }
 
-    public String getSpeedTextField(){
+    public String getSpeedTextField() {
 
         return speedTextField.getText();
     }
@@ -249,17 +259,16 @@ public class RobotGui {
         }
     }
 
-    public  void setColorSpeedTextField(boolean color){
-        if(color){
+    public void setColorSpeedTextField(boolean color) {
+        if (color) {
             speedTextField.setForeground(Color.BLACK);
-        }
-        else {
+        } else {
             speedTextField.setForeground(Color.RED);
         }
 
     }
 
-    public JPanel getRobotGuiPanel(){
+    public JPanel getRobotGuiPanel() {
 
         return robotGuiPanel;
     }

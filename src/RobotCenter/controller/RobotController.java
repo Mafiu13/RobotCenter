@@ -37,8 +37,8 @@ public class RobotController extends Thread {
     private boolean stopFlag;
     private boolean abortFlag;
     private RobotControllerValidator robotControllerValidator;
+    private GraphicViewController graphicViewController;
     private int speed;
-
 
 
     public RobotController(MainGui mainGui, RobotGui robotGui, Socket robotClientSocket, List<RobotController> robotControllers, List<String> tabNames, String tabName, PanelTexts panelTexts, RobotData robotData) {
@@ -64,6 +64,7 @@ public class RobotController extends Thread {
 
         robotService = new RobotService(robotData);
         robotControllerValidator = new RobotControllerValidator(moveToJointPosition, robotGui, panelTexts, robotService);
+        graphicViewController = new GraphicViewController(robotGui);
 
 
         robotGui.setEnableMoveRobotButton(false);
@@ -73,6 +74,7 @@ public class RobotController extends Thread {
         robotGui.addMoveRobotListener(new moveRobot());
         /*robotGui.addStopRobotListener(new stopRobot());*/
         robotGui.addDisconnectRobotListener(new disconnectRobot());
+        robotGui.addGraphicViewListener(new graphicView());
     }
 
     public void run() {
@@ -103,7 +105,7 @@ public class RobotController extends Thread {
 
                 sendStringMessage("JPoseSet");
             }
-            synchronized (this){
+            synchronized (this) {
 
                 sendStringMessage(command.getCommandValue());
 
@@ -133,8 +135,7 @@ public class RobotController extends Thread {
                     System.out.println(speed);
                     robotGui.setMoveAlertLabel(panelTexts.getMoveAlertLabelText4());
                     robotGui.setEnableMoveRobotButton(true);
-                }
-                else{
+                } else {
                     robotGui.setEnableMoveRobotButton(false);
                 }
             } else {
@@ -164,7 +165,16 @@ public class RobotController extends Thread {
         }
     }
 
-    private void moveRobot(BufferedReader inputStream){
+    class graphicView implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+
+            graphicViewController.setVisibleGraphicViewGui(true);
+            robotGui.setEnableGraphicViewButton(false);
+        }
+    }
+
+    private void moveRobot(BufferedReader inputStream) {
 
         command = Command.CONTINUE;
         moveFlag = false;
@@ -174,7 +184,7 @@ public class RobotController extends Thread {
 
             sendStringMessage(robotGui.getAxisMJPoseTextField(i));
             System.out.println(robotGui.getAxisMJPoseTextField(i));
-            moveToJointPosition.setJointPosition(i,TypeConverter.convertStrToDouble(robotGui.getAxisMJPoseTextField(i)));
+            moveToJointPosition.setJointPosition(i, TypeConverter.convertStrToDouble(robotGui.getAxisMJPoseTextField(i)));
         }
         robotGui.setRobotMessageLabel(receiveStringMessage(inputStream));
         robotGui.setEnableApplyButton(true);
@@ -211,7 +221,14 @@ public class RobotController extends Thread {
         return message;
     }
 
+    public RobotGui getRobotGui() {
+
+        return robotGui;
+    }
+
     public void closeRobotClient() {
+
+        graphicViewController.closeGraphicViewController();
 
         continueFlag = false;
         mainGui.removeTabbedPane(tabName);
@@ -227,7 +244,7 @@ public class RobotController extends Thread {
         }
     }
 
-    public void setStartFlags(){
+    public void setStartFlags() {
 
         continueFlag = true;
         moveFlag = false;

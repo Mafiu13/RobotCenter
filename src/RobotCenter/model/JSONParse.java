@@ -36,13 +36,13 @@ public class JSONParse {
 
                 JSONObject datas = (JSONObject) object;
 
-                Integer robotModelID = TypeConverter.convertLongToInt((Long)datas.get("RobotModelID"));
+                Integer robotModelID = TypeConverter.convertLongToInt((Long) datas.get("RobotModelID"));
                 System.out.println("RobotModelID:" + robotModelID);
 
                 String robotModel = (String) datas.get("RobotModel");
                 System.out.println("RobotModel:" + robotModel);
 
-                Integer axes = TypeConverter.convertLongToInt((Long)datas.get("Axes"));
+                Integer axes = TypeConverter.convertLongToInt((Long) datas.get("Axes"));
                 System.out.println("Axes:" + axes);
 
                 JSONObject minJPoseData = (JSONObject) ((JSONObject) object).get("MinJPose");
@@ -65,7 +65,7 @@ public class JSONParse {
                     maxJPose.setJointPosition(i, axis);
                 }
 
-                Integer maxSpeed = TypeConverter.convertLongToInt((Long)datas.get("MaxSpeed"));
+                Integer maxSpeed = TypeConverter.convertLongToInt((Long) datas.get("MaxSpeed"));
                 System.out.println("MaxSpeed:" + maxSpeed);
 
                 System.out.println("\n");

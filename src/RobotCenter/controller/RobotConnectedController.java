@@ -27,7 +27,7 @@ public class RobotConnectedController {
     private RobotData robotData;
     String tabName;
 
-    public RobotConnectedController(List<RobotController> robotControllers, List<String> tabNames,List<RobotData> robotDatas, Socket robotClientSocket, MainGui mainGui, PanelTexts panelTexts) {
+    public RobotConnectedController(List<RobotController> robotControllers, List<String> tabNames, List<RobotData> robotDatas, Socket robotClientSocket, MainGui mainGui, PanelTexts panelTexts) {
 
         this.mainGui = mainGui;
         this.panelTexts = panelTexts;
@@ -63,7 +63,7 @@ public class RobotConnectedController {
                     mainGui.setEnableConfigureRobotButton(false);
                     tabNames.add(tabName);
                     RobotController robotController;
-                    (robotController = new RobotController(mainGui, robotGui, robotClientSocket, robotControllers, tabNames, tabName, panelTexts,robotData)).start();
+                    (robotController = new RobotController(mainGui, robotGui, robotClientSocket, robotControllers, tabNames, tabName, panelTexts, robotData)).start();
                     robotControllers.add(robotController);
                     closeRobotConnectedController();
 

@@ -44,27 +44,27 @@ public class RobotModelController {
 
         public void actionPerformed(ActionEvent e) {
 
-           addRobotModelInformation(robotModelGui.getRobotModelIdxComboBox());
+            addRobotModelInformation(robotModelGui.getRobotModelIdxComboBox());
 
         }
     }
 
-    private void addRobotModelInformation(int idx){
+    private void addRobotModelInformation(int idx) {
 
 
         robotModelGui.setAxesInfoLabel(TypeConverter.convertIntToStr(robotDatas.get(idx).getAxes()));
 
         for (int i = 1; i < 7; i++) {
 
-            robotModelGui.setAxisMinJPoseTextField(i,robotDatas.get(idx).getMinJPose().getStrAxis(i));
-            robotModelGui.setAxisMaxJPoseTextField(i,robotDatas.get(idx).getMaxJPose().getStrAxis(i));
+            robotModelGui.setAxisMinJPoseTextField(i, robotDatas.get(idx).getMinJPose().getStrAxis(i));
+            robotModelGui.setAxisMaxJPoseTextField(i, robotDatas.get(idx).getMaxJPose().getStrAxis(i));
         }
 
         robotModelGui.setMaxSpeedTextField(TypeConverter.convertIntToStr(robotDatas.get(idx).getMaxSpeed()));
 
     }
 
-    private void addRobotModelsToComboBox(){
+    private void addRobotModelsToComboBox() {
 
         for (int i = 0; i < robotDatas.size(); i++) {
             robotModelGui.setRobotModelComboBox(robotDatas.get(i).getRobotModel());

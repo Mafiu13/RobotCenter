@@ -118,7 +118,7 @@ public class MainController {
 
         public void actionPerformed(ActionEvent e) {
 
-            RobotModelController robotModelsController = new RobotModelController(mainGui,robotDatas);
+            RobotModelController robotModelsController = new RobotModelController(mainGui, robotDatas);
 
         }
     }

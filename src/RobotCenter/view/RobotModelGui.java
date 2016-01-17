@@ -55,22 +55,22 @@ public class RobotModelGui {
         OKButton.addActionListener(listenForOKButton);
     }
 
-    public void addRobotModelListener(ActionListener listenForRobotModelComboBox){
+    public void addRobotModelListener(ActionListener listenForRobotModelComboBox) {
 
         robotModelComboBox.addActionListener(listenForRobotModelComboBox);
     }
 
-    public void  setRobotModelComboBox(String robotModel){
+    public void setRobotModelComboBox(String robotModel) {
 
         robotModelComboBox.addItem(robotModel);
     }
 
-    public int getRobotModelIdxComboBox(){
+    public int getRobotModelIdxComboBox() {
 
         return robotModelComboBox.getSelectedIndex();
     }
 
-    public void setAxesInfoLabel(String axesInfo){
+    public void setAxesInfoLabel(String axesInfo) {
 
         axesInfoLabel.setText(axesInfo + " - Axis Robot");
     }
@@ -129,12 +129,12 @@ public class RobotModelGui {
         }
     }
 
-    public void setMaxSpeedTextField(String maxSpeed){
+    public void setMaxSpeedTextField(String maxSpeed) {
 
         maxSpeedTextField.setText(maxSpeed);
     }
 
-    public void closeRobotModelsGuiFrame(){
+    public void closeRobotModelsGuiFrame() {
 
         frame.dispose();
     }

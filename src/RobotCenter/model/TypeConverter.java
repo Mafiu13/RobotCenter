@@ -8,8 +8,8 @@ public class TypeConverter {
 
     public static int convertStrToInt(String str) {
 
-            int strToInt = Integer.parseInt(str);
-            return strToInt;
+        int strToInt = Integer.parseInt(str);
+        return strToInt;
     }
 
     public static String convertIntToStr(Integer intToStr) {
@@ -31,7 +31,7 @@ public class TypeConverter {
         return str;
     }
 
-    public  static Integer convertLongToInt(Long longToInt){
+    public static Integer convertLongToInt(Long longToInt) {
 
         return longToInt.intValue();
 

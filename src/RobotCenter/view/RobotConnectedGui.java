@@ -45,12 +45,12 @@ public class RobotConnectedGui {
         alertLabel.setText(alert);
     }
 
-    public void  setRobotModelLabelComboBox(String robotModelLabel){
+    public void setRobotModelLabelComboBox(String robotModelLabel) {
 
         robotModelLabelComboBox.addItem(robotModelLabel);
     }
 
-    public int getRobotModelLabelComboBox(){
+    public int getRobotModelLabelComboBox() {
 
         return robotModelLabelComboBox.getSelectedIndex();
     }

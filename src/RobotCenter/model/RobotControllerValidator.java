@@ -66,40 +66,39 @@ public class RobotControllerValidator {
                 flag = false;
             }
         }
-            if(robotService.checkIfInSpeedRange(speed)){
-                robotGui.setColorSpeedTextField(true);
-            }
-            else {
-                robotGui.setColorSpeedTextField(false);
-                robotGui.setMoveAlertLabel(panelTexts.getMoveAlertLabelText2());
-                flag = false;
-            }
+        if (robotService.checkIfInSpeedRange(speed)) {
+            robotGui.setColorSpeedTextField(true);
+        } else {
+            robotGui.setColorSpeedTextField(false);
+            robotGui.setMoveAlertLabel(panelTexts.getMoveAlertLabelText2());
+            flag = false;
+        }
 
         return flag;
     }
 
-    public void correctMoveToJointPosition(){
+    public void correctMoveToJointPosition() {
 
-        for(int i=1; i<=6;i++){
+        for (int i = 1; i <= 6; i++) {
 
             String strJPose = robotGui.getAxisMJPoseTextField(i);
             int strLength = strJPose.length();
 
-            while(strLength<7){
+            while (strLength < 7) {
 
-                if(strJPose.contains(".")){
-                strJPose = strJPose + "0";
-                strLength = strJPose.length();}
-                else
+                if (strJPose.contains(".")) {
+                    strJPose = strJPose + "0";
+                    strLength = strJPose.length();
+                } else
                     strJPose = strJPose + ".";
             }
-            while (strLength>7){
-                strJPose = strJPose.substring(0,strJPose.length()-1);
+            while (strLength > 7) {
+                strJPose = strJPose.substring(0, strJPose.length() - 1);
                 strLength = strJPose.length();
             }
 
-            robotGui.setAxisMJPoseTextField(i,strJPose);
-            moveToJointPosition.setJointPosition(i,TypeConverter.convertStrToDouble(robotGui.getAxisMJPoseTextField(i)));
+            robotGui.setAxisMJPoseTextField(i, strJPose);
+            moveToJointPosition.setJointPosition(i, TypeConverter.convertStrToDouble(robotGui.getAxisMJPoseTextField(i)));
 
         }
 
@@ -110,7 +109,7 @@ public class RobotControllerValidator {
         return moveToJointPosition;
     }
 
-    public int getSpeed(){
+    public int getSpeed() {
 
         return speed;
     }
