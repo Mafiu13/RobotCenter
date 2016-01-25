@@ -80,7 +80,7 @@ public class RobotController extends Thread {
     public void run() {
 
 
-        BufferedReader inputStream = null;
+        //BufferedReader inputStream = null;
         try {
             inputStream = new BufferedReader(new InputStreamReader(robotClientSocket.getInputStream()));
         } catch (IOException e) {
@@ -192,7 +192,7 @@ public class RobotController extends Thread {
 
     private void sendStringMessage(String message) {
 
-        PrintWriter outputStream = null;
+        //PrintWriter outputStream = null;
         try {
             outputStream = new PrintWriter(robotClientSocket.getOutputStream());
         } catch (IOException e) {
@@ -219,11 +219,6 @@ public class RobotController extends Thread {
             }
         }
         return message;
-    }
-
-    public RobotGui getRobotGui() {
-
-        return robotGui;
     }
 
     public void closeRobotClient() {

@@ -66,7 +66,7 @@ public class RobotGui {
         stopRobotButton.addActionListener(listenForStopRobotButton);
     }*/
 
-    public void addGraphicViewListener(ActionListener listenForGraphicViewButton){
+    public void addGraphicViewListener(ActionListener listenForGraphicViewButton) {
 
         graphicViewButton.addActionListener(listenForGraphicViewButton);
     }
@@ -90,7 +90,7 @@ public class RobotGui {
         stopRobotButton.setEnabled(flag);
     }*/
 
-    public void setEnableGraphicViewButton(boolean flag){
+    public void setEnableGraphicViewButton(boolean flag) {
 
         graphicViewButton.setEnabled(flag);
     }

@@ -1,5 +1,9 @@
-package RobotCenter.model;
+package RobotCenter.controller;
 
+import RobotCenter.model.JointPosition;
+import RobotCenter.model.PanelTexts;
+import RobotCenter.model.RobotService;
+import RobotCenter.model.TypeConverter;
 import RobotCenter.view.RobotGui;
 
 /**
