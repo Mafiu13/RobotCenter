@@ -55,7 +55,6 @@ public class RobotController extends Thread {
         robotGui.setRobotModelLabel(robotData.getRobotModel());
         robotGui.setMoveAlertLabel(panelTexts.getMoveAlertLabelText1());
 
-
         moveToJointPosition = new JointPosition(0, 0, 0, 0, 0, 0);
         currentJointPosition = new JointPosition(0, 0, 0, 0, 0, 0);
 
@@ -103,8 +102,10 @@ public class RobotController extends Thread {
                     currentJointPosition.setJointPosition(i, TypeConverter.convertStrToDouble(cJPoseStr));
                 }
 
+                paintRobotInCurrentPosition(currentJointPosition);
                 sendStringMessage("JPoseSet");
             }
+
             synchronized (this) {
 
                 sendStringMessage(command.getCommandValue());
@@ -118,7 +119,6 @@ public class RobotController extends Thread {
 
             }
         }
-
 
     }
 
@@ -219,6 +219,14 @@ public class RobotController extends Thread {
             }
         }
         return message;
+    }
+
+    private void paintRobotInCurrentPosition(JointPosition currentJointPosition){
+
+        //graphicViewController.paintRobot(robotData.getRobotModelID(),currentJointPosition);
+
+        graphicViewController.paintRobot(2,currentJointPosition);
+
     }
 
     public void closeRobotClient() {
