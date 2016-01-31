@@ -42,12 +42,12 @@ public class Point3D {
         size = w;
     }
 
-    public static void setWidth(int w){
+    public static void setWidth(int w) {
 
         width = w;
     }
 
-    public static void setHeight(int l){
+    public static void setHeight(int l) {
 
         height = l;
     }
@@ -116,11 +116,7 @@ public class Point3D {
         // g2.clearRect (0, 0, width, height);
 
 
-
-
         if (previous != null) {
-
-
 
 
             double x1 = (-previous.px * size) / (previous.pz - 600) + sx;

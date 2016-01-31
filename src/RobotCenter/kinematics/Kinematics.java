@@ -173,7 +173,6 @@ public class Kinematics {
     public void setAngle2(double f1, double f2, double f3, double f4, double f5, double f6) {
 
 
-
         matrix01_2.countMatrix(f1);
         matrix12_2.countMatrix(f2);
         matrix23_2.countMatrix(f3);

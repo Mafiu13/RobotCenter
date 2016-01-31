@@ -48,8 +48,7 @@ public class Transformation {
     }
 
 
-    public void setFi(double fi)
-    {
-        this.fi=fi;
+    public void setFi(double fi) {
+        this.fi = fi;
     }
 }

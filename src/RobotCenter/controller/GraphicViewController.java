@@ -56,17 +56,17 @@ public class GraphicViewController {
         graphicViewGui.closeGraphicViewGuiFrame();
     }
 
-    public void paintRobot (int model, JointPosition CJPos){
+    public void paintRobot(int model, JointPosition CJPos) {
 
         point3D.setGraphics(graphicViewGui.getGraphics());
 
-        switch (model){
+        switch (model) {
 
             case 0:
-                kinematics.setAngle2(CJPos.getAxis(1),CJPos.getAxis(2),CJPos.getAxis(3),CJPos.getAxis(4),CJPos.getAxis(5),CJPos.getAxis(6));
+                kinematics.setAngle2(CJPos.getAxis(1), CJPos.getAxis(2), CJPos.getAxis(3), CJPos.getAxis(4), CJPos.getAxis(5), CJPos.getAxis(6));
                 break;
             case 1:
-                kinematics.setAngle1(CJPos.getAxis(1),CJPos.getAxis(2),CJPos.getAxis(3),CJPos.getAxis(4),CJPos.getAxis(5),CJPos.getAxis(6));
+                kinematics.setAngle1(CJPos.getAxis(1), CJPos.getAxis(2), CJPos.getAxis(3), CJPos.getAxis(4), CJPos.getAxis(5), CJPos.getAxis(6));
                 break;
             default:
                 break;

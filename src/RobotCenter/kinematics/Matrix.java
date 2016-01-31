@@ -11,7 +11,6 @@ public class Matrix {
         this.table = m1;
     }
 
-
     public double[][] getTable() {
         return table;
     }
