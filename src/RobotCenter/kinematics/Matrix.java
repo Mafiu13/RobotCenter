@@ -5,26 +5,26 @@ package RobotCenter.kinematics;
  */
 public class Matrix {
 
-    private double[][] tablica;
+    private double[][] table;
 
     Matrix(double[][] m1) {
-        this.tablica = m1;
+        this.table = m1;
     }
 
 
-    public double[][] getTablice() {
-        return tablica;
+    public double[][] getTable() {
+        return table;
     }
 
-    public void pomnoz(Matrix macierz) {
-        double[][] macierzMnozona = macierz.getTablice();
-        double[][] macierzPomnozona = new double[this.tablica.length][macierzMnozona[0].length];
-        macierzPomnozona = this.wymnozTablice(this.tablica, macierzMnozona);
-        this.tablica = macierzPomnozona;
+    public void multiply(Matrix matrix) {
+        double[][] multiplyMatrix = matrix.getTable();
+        double[][] multipliedMatrix = new double[this.table.length][multiplyMatrix[0].length];
+        multipliedMatrix = this.multiplyTables(this.table, multiplyMatrix);
+        this.table = multipliedMatrix;
     }
 
-    public double[][] wymnozTablice(double[][] tab1, double[][] tab2) {
-        double[][] macierzPomnozona = new double[tab1.length][tab2[0].length];
+    public double[][] multiplyTables(double[][] tab1, double[][] tab2) {
+        double[][] multipliedMatrix = new double[tab1.length][tab2[0].length];
         if (tab1[0].length == tab2.length) {
             for (int i = 0; i < tab1.length; i++) {//ilosc wierszy tab1
                 for (int j = 0; j < tab2[0].length; j++) { //ilosc kolumn tab2
@@ -32,12 +32,12 @@ public class Matrix {
                     for (int w = 0; w < tab2.length; w++) { //ilosc wierszy tab2
                         temp += tab1[i][w] * tab2[w][j];
                     }
-                    macierzPomnozona[i][j] = temp;
+                    multipliedMatrix[i][j] = temp;
                 }
             }
         } else {
-            throw new RuntimeException("Podane tablice mają niewłasciwe wymiary");
+            throw new RuntimeException("Incorrect dimension of tables");
         }
-        return macierzPomnozona;
+        return multipliedMatrix;
     }
 }

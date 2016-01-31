@@ -223,9 +223,9 @@ public class RobotController extends Thread {
 
     private void paintRobotInCurrentPosition(JointPosition currentJointPosition){
 
-        //graphicViewController.paintRobot(robotData.getRobotModelID(),currentJointPosition);
+        graphicViewController.paintRobot(robotData.getRobotModelID(),currentJointPosition);
 
-        graphicViewController.paintRobot(2,currentJointPosition);
+        // graphicViewController.paintRobot(2,currentJointPosition);
 
     }
 

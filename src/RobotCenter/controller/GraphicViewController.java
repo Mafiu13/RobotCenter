@@ -1,7 +1,7 @@
 package RobotCenter.controller;
 
-import RobotCenter.kinematics.Kinematyka;
-import RobotCenter.kinematics.Punkt3D;
+import RobotCenter.kinematics.Kinematics;
+import RobotCenter.kinematics.Point3D;
 import RobotCenter.model.JointPosition;
 import RobotCenter.view.GraphicViewGui;
 import RobotCenter.view.RobotGui;
@@ -16,19 +16,21 @@ public class GraphicViewController {
 
     GraphicViewGui graphicViewGui;
     RobotGui robotGui;
-    Punkt3D punkt3D;
-    Kinematyka kinematyka;
+    Point3D point3D;
+    Kinematics kinematics;
 
 
     public GraphicViewController(RobotGui robotGui) {
 
         this.robotGui = robotGui;
         graphicViewGui = new GraphicViewGui();
-        kinematyka = new Kinematyka();
+        kinematics = new Kinematics();
 
-        punkt3D.setLinia(graphicViewGui.getLine2D());
-        punkt3D.setSrodek(graphicViewGui.getWidthtRobotViewJPanel()/2, graphicViewGui.getWidthtRobotViewJPanel()/2);
-        punkt3D.setWielkosc((graphicViewGui.getWidthtRobotViewJPanel() + graphicViewGui.getHeightRobotViewJPanel()) / 6);
+        point3D.setLine(graphicViewGui.getLine2D());
+        point3D.setCentre(graphicViewGui.getWidthtRobotViewJPanel() / 2, graphicViewGui.getWidthtRobotViewJPanel() / 2);
+        point3D.setSize((graphicViewGui.getWidthtRobotViewJPanel() + graphicViewGui.getHeightRobotViewJPanel()) / 6);
+        point3D.setHeight(graphicViewGui.getHeightRobotViewJPanel());
+        point3D.setWidth(graphicViewGui.getWidthtRobotViewJPanel());
 
         graphicViewGui.addCloseListener(new close());
 
@@ -56,18 +58,15 @@ public class GraphicViewController {
 
     public void paintRobot (int model, JointPosition CJPos){
 
-        punkt3D.setGrafika(graphicViewGui.getGraphics());
+        point3D.setGraphics(graphicViewGui.getGraphics());
 
         switch (model){
 
             case 0:
-                kinematyka.setAngle2(CJPos.getAxis(1),CJPos.getAxis(2),CJPos.getAxis(3),CJPos.getAxis(4),CJPos.getAxis(5),CJPos.getAxis(6));
+                kinematics.setAngle2(CJPos.getAxis(1),CJPos.getAxis(2),CJPos.getAxis(3),CJPos.getAxis(4),CJPos.getAxis(5),CJPos.getAxis(6));
                 break;
             case 1:
-                kinematyka.setAngle1(CJPos.getAxis(1),CJPos.getAxis(2),CJPos.getAxis(3),CJPos.getAxis(4),CJPos.getAxis(5),CJPos.getAxis(6));
-                break;
-            case 2:
-                kinematyka.setAngle2(50,20,100,20,20,10);
+                kinematics.setAngle1(CJPos.getAxis(1),CJPos.getAxis(2),CJPos.getAxis(3),CJPos.getAxis(4),CJPos.getAxis(5),CJPos.getAxis(6));
                 break;
             default:
                 break;
