@@ -58,7 +58,7 @@ public class GraphicViewGui {
         return robotViewJPanel.getHeight();
     }
 
-    public int getWidthtRobotViewJPanel() {
+    public int getWidthRobotViewJPanel() {
 
         return robotViewJPanel.getWidth();
     }

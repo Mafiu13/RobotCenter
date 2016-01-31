@@ -27,10 +27,10 @@ public class GraphicViewController {
         kinematics = new Kinematics();
 
         point3D.setLine(graphicViewGui.getLine2D());
-        point3D.setCentre(graphicViewGui.getWidthtRobotViewJPanel() / 2, graphicViewGui.getWidthtRobotViewJPanel() / 2);
-        point3D.setSize((graphicViewGui.getWidthtRobotViewJPanel() + graphicViewGui.getHeightRobotViewJPanel()) / 6);
+        point3D.setCentre(graphicViewGui.getWidthRobotViewJPanel() / 2, graphicViewGui.getWidthRobotViewJPanel() / 2);
+        point3D.setSize((graphicViewGui.getWidthRobotViewJPanel() + graphicViewGui.getHeightRobotViewJPanel()) / 6);
         point3D.setHeight(graphicViewGui.getHeightRobotViewJPanel());
-        point3D.setWidth(graphicViewGui.getWidthtRobotViewJPanel());
+        point3D.setWidth(graphicViewGui.getWidthRobotViewJPanel());
 
         graphicViewGui.addCloseListener(new close());
 
