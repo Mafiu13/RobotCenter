@@ -62,7 +62,7 @@ public class RobotService {
     }
 
     public boolean checkIfInSpeedRange(int speed) {
-        if (!(speed > 100 && speed < robotData.getMaxSpeed())) {
+        if (!(speed > 0 && speed <= robotData.getMaxSpeed())) {
             return false;
         }
         return true;
