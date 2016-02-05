@@ -1,5 +1,6 @@
 package RobotCenter.kinematics;
 
+import javax.media.j3d.Node;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
@@ -10,6 +11,16 @@ import java.awt.geom.Line2D;
 
 public class Point3D {
 
+
+    public double getX() {
+        return x;
+    }
+    public double getY() {
+        return y;
+    }
+    public double getZ() {
+        return z;
+    }
     private double x, y, z;
     private double px, py, pz;
     private Point3D previous;
@@ -19,6 +30,16 @@ public class Point3D {
     private static Graphics2D g2;
     private static int width;
     private static int height;
+
+
+    public Point3D(Point3D prv, double x, double y, double z) {
+
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.previous = prv;
+        reset();
+    }
 
 
     public static void setLine(Line2D line) {
@@ -52,14 +73,7 @@ public class Point3D {
         height = l;
     }
 
-    public Point3D(Point3D prv, double x, double y, double z) {
 
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.previous = prv;
-        reset();
-    }
 
     public void reset() {
 

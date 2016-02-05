@@ -24,7 +24,7 @@ import com.sun.j3d.utils.geometry.Sphere;
 import javax.xml.crypto.dsig.Transform;
 import com.sun.j3d.utils.geometry.ColorCube;
 
-public class View extends JPanel {
+public class View2 extends JPanel {
 
     int s = 0, count = 0;
 
@@ -35,7 +35,7 @@ public class View extends JPanel {
     Kinematics kinematics3D;
 
 
-    public View() {
+    public View2() {
 
         list3D1=new ArrayList<Point3D>();
         list3D2=new ArrayList<Point3D>();
@@ -59,54 +59,58 @@ public class View extends JPanel {
         simpleU.getViewingPlatform().setNominalViewingTransform();
 
         simpleU.addBranchGraph(scene);
-        }
+    }
 
     public BranchGroup createSceneGraph() {
 
         BranchGroup lineGroup = new BranchGroup();// grupa tworzaca jeden obiekt
         Appearance app = new Appearance(); //cechy punktow
         Appearance app2 = new Appearance(); // cechy lacza
-        Appearance appFloor = new Appearance(); //cechy podloi ///////////////////////////////////flooor
+        Appearance appFloor = new Appearance(); //cechy podloi
 
         // tworzenie tła
 
         Background backg = new Background(0f, 0f, 0f);
-      //  backg.setGeometry(Background);
+        //  backg.setGeometry(Background);
         backg.setApplicationBounds(new BoundingSphere(new Point3d(), 100.0));
         lineGroup.addChild(backg);
 
-        Point3f[] plaPts = new Point3f[7];
+        Point3f[] plaPts = new Point3f[9];
 
 // tworzenie punktow waraz z polozeniem poczatkkowym
 
-       plaPts[0]=new Point3f(0,0,0);
-    //    plaPts[0] = new Point3f((float)(kinematics3D.points.get(0).getX()/ 1500.0f),(float) (kinematics3D.points.get(0).getY() / 1500.0f), (float) (kinematics3D.points.get(0).getZ() / 1500.0f));
-        plaPts[1] = new Point3f((float)(kinematics3D.points.get(0).getX()/ 1500.0f),(float) (kinematics3D.points.get(0).getY() / 1500.0f), (float) (kinematics3D.points.get(0).getZ() / 1500.0f));
-        plaPts[2] = new Point3f((float)(kinematics3D.points.get(1).getX()/ 1500.0f),(float) (kinematics3D.points.get(1).getY() / 1500.0f), (float) (kinematics3D.points.get(1).getZ() / 1500.0f));
-        plaPts[3] = new Point3f((float)(kinematics3D.points.get(2).getX()/ 1500.0f),(float) (kinematics3D.points.get(2).getY() / 1500.0f), (float) (kinematics3D.points.get(2).getZ() / 1500.0f));
-        plaPts[4] = new Point3f((float)(kinematics3D.points.get(3).getX()/ 1500.0f),(float) (kinematics3D.points.get(3).getY() / 1500.0f), (float) (kinematics3D.points.get(3).getZ() / 1500.0f));
-        plaPts[5] = new Point3f((float)(kinematics3D.points.get(4).getX()/ 1500.0f),(float) (kinematics3D.points.get(4).getY() / 1500.0f), (float) (kinematics3D.points.get(4).getZ() / 1500.0f));
-        plaPts[6] = new Point3f((float)(kinematics3D.points.get(5).getX()/ 1500.0f),(float) (kinematics3D.points.get(5).getY() / 1500.0f), (float) (kinematics3D.points.get(5).getZ() / 1500.0f));
+        plaPts[0]=new Point3f(0,0,0);
+        //    plaPts[0] = new Point3f((float)(kinematics3D.points.get(0).getX()/ 1500.0f),(float) (kinematics3D.points.get(0).getY() / 1500.0f), (float) (kinematics3D.points.get(0).getZ() / 1500.0f));
+        plaPts[1] = new Point3f((float)(kinematics3D.points2.get(0).getX()/ 1500.0f),(float) (kinematics3D.points2.get(0).getY() / 1500.0f), (float) (kinematics3D.points2.get(0).getZ() / 1500.0f));
+
+        plaPts[2] = new Point3f((float)(kinematics3D.points2.get(1).getX()/ 1500.0f),(float) (kinematics3D.points2.get(1).getY() / 1500.0f), (float) (kinematics3D.points2.get(1).getZ() / 1500.0f));
+
+        plaPts[3] = new Point3f((float)(kinematics3D.points2.get(1).getX()/ 1500.0f),(float) (kinematics3D.points2.get(1).getY() / 1500.0f), (float) (kinematics3D.points2.get(1).getZ() / 1500.0f));
+        plaPts[4] = new Point3f((float)(kinematics3D.points2.get(2).getX()/ 1500.0f),(float) (kinematics3D.points2.get(2).getY() / 1500.0f), (float) (kinematics3D.points2.get(2).getZ() / 1500.0f));
+        plaPts[5] = new Point3f((float)(kinematics3D.points2.get(0).getX()/ 1500.0f),(float) (kinematics3D.points2.get(0).getY() / 1500.0f), (float) (kinematics3D.points2.get(0).getZ() / 1500.0f));
+        plaPts[6] = new Point3f((float)(kinematics3D.points2.get(3).getX()/ 1500.0f),(float) (kinematics3D.points2.get(3).getY() / 1500.0f), (float) (kinematics3D.points2.get(3).getZ() / 1500.0f));
+        plaPts[7] = new Point3f((float)(kinematics3D.points2.get(4).getX()/ 1500.0f),(float) (kinematics3D.points2.get(4).getY() / 1500.0f), (float) (kinematics3D.points2.get(4).getZ() / 1500.0f));
+        plaPts[8] = new Point3f((float)(kinematics3D.points2.get(5).getX()/ 1500.0f),(float) (kinematics3D.points2.get(5).getY() / 1500.0f), (float) (kinematics3D.points2.get(5).getZ() / 1500.0f));
         //plaPts[3] = new Point3f((float)(kinematics3D.points.get(3).getX()/ 10.0f),(float) (kinematics3D.points.get(3).getY() / 10.0f), (float) (kinematics3D.points.get(3).getZ() / 10.0f));
 
 // tworzenie listy punktow
-        PointArray pla = new PointArray(7, GeometryArray.COORDINATES);
+        PointArray pla = new PointArray(9, GeometryArray.COORDINATES);
 
 
 
 //ustawianaie w dowolnym polozeniu (bedze wykorzysane przy zaczystywaniu danych)
-        Draw3D(pla,plaPts, 90,-90,0,0,40,40);
+        Draw3D2(pla, plaPts, 0, 90, 0, 0, 0, 90);
 //atrybuty koloru dla punktow
         ColoringAttributes ca = new ColoringAttributes(new Color3f(1,0,0), ColoringAttributes.NICEST);
         app.setColoringAttributes(ca);
 ///atry kol dla lini
         ColoringAttributes la=new ColoringAttributes(new Color3f(0,0,1), ColoringAttributes.NICEST);
         app2.setColoringAttributes(la);
-        ColoringAttributes fl=new ColoringAttributes(new Color3f(1,1,1), ColoringAttributes.NICEST);/////////////////
-        appFloor.setColoringAttributes(fl);                                         //////////////////////////floor
+
+
         //tworzenie linii
-        int vertexCounts[] = {7};
-        LineStripArray lines = new LineStripArray(7,GeometryArray.COORDINATES, vertexCounts);
+        int vertexCounts[] = {9};
+        LineStripArray lines = new LineStripArray(9,GeometryArray.COORDINATES, vertexCounts);
         lines.setCoordinates(0,plaPts );
 ///
 
@@ -139,13 +143,14 @@ public class View extends JPanel {
         app.setMaterial(mat);
         app2.setMaterial(mat);
         RenderingAttributes ra=new RenderingAttributes();
+        RenderingAttributes ra=new RenderingAttributes();
         ra.setIgnoreVertexColors(true);
 */
-    //    ca.setShadeModel(ColoringAttributes.SHADE_GOURAUD);
-     //  ca.setColor(new Color3f(0.2f,0.5f,0.9f));
+        //    ca.setShadeModel(ColoringAttributes.SHADE_GOURAUD);
+        //  ca.setColor(new Color3f(0.2f,0.5f,0.9f));
 
 
-       // app.setRenderingAttributes(ra);
+        // app.setRenderingAttributes(ra);
 
 
 
@@ -162,32 +167,11 @@ public class View extends JPanel {
         //  sam) sposób.
 
 
-/////////////////////////////////////tworzenie podlogi
-        Point3f[] myCoords = { new Point3f(1.0f, 1.0f, -0.150f),
-                new Point3f(-1.0f, 1.0f, -0.150f),
-                new Point3f(-1.0f, -1.0f, -0.150f),
-                new Point3f(1.0f, -1.0f, -0.150f)};
 
-        Vector3f[] myNormals ={
-                new Vector3f(  0.0f, 0.0f, 10.0f ),
-          //     new Vector3f(  0.0f, 0.0f, -1.0f ),
-               // new Vector3f(  0.0f, 1.0f, 0.0f ),
-         //       new Vector3f(  0.0f, 1.0f, 0.0f )
-        };
-
-
-        QuadArray myQuads = new QuadArray(
-                myCoords.length,
-                GeometryArray.COORDINATES |
-                        GeometryArray.NORMALS );
-        myQuads.setCoordinates( 0, myCoords );
-        myQuads.setNormals( 0, myNormals );
-
-       Shape3D myShape = new Shape3D( myQuads, appFloor );
 
 
 /////////////////////////////////////////////////////////////////////////
- /*       QuadArray plane = new QuadArray(4, GeometryArray.COORDINATES
+        QuadArray plane = new QuadArray(4, GeometryArray.COORDINATES
                 | GeometryArray.NORMALS);
 
         Point3f A= new Point3f();
@@ -220,7 +204,7 @@ public class View extends JPanel {
         plane.setNormal(2, n);
         plane.setNormal(3, n);
 
-*/
+
         /////////////////////////////////////////////////////////////
 
 
@@ -234,7 +218,7 @@ public class View extends JPanel {
         objRotate.addChild(new Shape3D(lines,app2));
         //dodaje punkty do jednego elem
         objRotate.addChild(plShape);
-        objRotate.addChild(myShape); /////////////////////////////////////////////flooor
+        objRotate.addChild(new Shape3D(plane,app));
 
 
         //obracam element objRotate
@@ -254,19 +238,18 @@ public class View extends JPanel {
         rotation.mul(rotation,rotation3);
 
         objRotate.setTransform(rotation);
- 
-      //  rotation.rotZ(degToRad(0));
-     //   objRotate.setTransform(rotation);
-      //  rotation.rotX(degToRad(90));
-       // objRotate.setTransform(rotation);
+        //  rotation.rotZ(degToRad(0));
+        //   objRotate.setTransform(rotation);
+        //  rotation.rotX(degToRad(90));
+        // objRotate.setTransform(rotation);
 
 
 /// tworze oswietlenie
 
 
 // tworzymy światło - kierunkowe, świecące od góry
- DirectionalLight sunlikeLight = new DirectionalLight(new Color3f(Color.RED), new Vector3f(0,-1,0));
- sunlikeLight.setInfluencingBounds(new BoundingSphere());
+        DirectionalLight sunlikeLight = new DirectionalLight(new Color3f(Color.RED), new Vector3f(0,-1,0));
+        sunlikeLight.setInfluencingBounds(new BoundingSphere());
 
 
 
@@ -298,40 +281,48 @@ public class View extends JPanel {
     }
 
 
-public void Draw3D(PointArray pla ,Point3f[] plaPts,double fi1,double fi2, double fi3, double fi4, double fi5, double fi6 )
+    public void Draw3D2(PointArray pla ,Point3f[] plaPts,double fi1,double fi2, double fi3, double fi4, double fi5, double fi6 )
     {
 
 
-        kinematics3D.setAngle1(fi1,fi2,fi3,fi4,fi5,fi6);
-        plaPts[0].x=(float) (kinematics3D.points.get(0).getX()/ 1000.0f);
-        plaPts[0].y=(float) (kinematics3D.points.get(0).getY() / 1000.0f);
-        plaPts[0].z=(float) ((kinematics3D.points.get(0).getZ()-100 )/ 1000.0f);
+        kinematics3D.setAngle2(fi1, fi2, fi3, fi4, fi5, fi6);
+        plaPts[0].x=(float) (kinematics3D.points2.get(0).getX()/ 1500.0f);
+        plaPts[0].y=(float) (kinematics3D.points2.get(0).getY() / 1500.0f);
+        plaPts[0].z=(float) ((kinematics3D.points2.get(0).getZ()-100 )/ 1500.0f);
 
 
-        plaPts[1].x=(float) (kinematics3D.points.get(1).getX()/ 1000.0f);
-        plaPts[1].y=(float) (kinematics3D.points.get(1).getY() / 1000.0f);
-        plaPts[1].z=(float) (kinematics3D.points.get(1).getZ() / 1000.0f);
+        plaPts[1].x=(float) (kinematics3D.points2.get(1).getX()/ 1500.0f);
+        plaPts[1].y=(float) (kinematics3D.points2.get(1).getY() / 1500.0f);
+        plaPts[1].z=(float) (kinematics3D.points2.get(1).getZ() / 1500.0f);
 
-        plaPts[2].x=(float) (kinematics3D.points.get(2).getX()/ 1000.0f);
-        plaPts[2].y=(float) (kinematics3D.points.get(2).getY() / 1000.0f);
-        plaPts[2].z=(float) (kinematics3D.points.get(2).getZ() / 1000.0f);
+        plaPts[2].x=(float) (kinematics3D.points2.get(2).getX()/ 1500.0f);
+        plaPts[2].y=(float) (kinematics3D.points2.get(2).getY() / 1500.0f);
+        plaPts[2].z=(float) (kinematics3D.points2.get(2).getZ() / 1500.0f);
 
-        plaPts[3].x=(float) (kinematics3D.points.get(3).getX()/ 1000.0f);
-        plaPts[3].y=(float) (kinematics3D.points.get(3).getY() / 1000.0f);
-        plaPts[3].z=(float) (kinematics3D.points.get(3).getZ() / 1000.0f);
+        plaPts[3].x=(float) (kinematics3D.points2.get(3).getX()/ 1500.0f);
+        plaPts[3].y=(float) (kinematics3D.points2.get(3).getY() / 1500.0f);
+        plaPts[3].z=(float) (kinematics3D.points2.get(3).getZ() / 1500.0f);
+
+        plaPts[4].x=(float) (kinematics3D.points2.get(4).getX()/ 1500.0f);
+        plaPts[4].y=(float) (kinematics3D.points2.get(4).getY() / 1500.0f);
+        plaPts[4].z=(float) (kinematics3D.points2.get(4).getZ() / 1500.0f);
+
+        plaPts[5].x=(float) (kinematics3D.points2.get(5).getX()/ 1500.0f);
+        plaPts[5].y=(float) (kinematics3D.points2.get(5).getY() / 1500.0f);
+        plaPts[5].z=(float) (kinematics3D.points2.get(5).getZ() / 1500.0f);
 
 
-        plaPts[4].x=(float) (kinematics3D.points.get(4).getX()/ 1000.0f);
-        plaPts[4].y=(float) (kinematics3D.points.get(4).getY() / 1000.0f);
-        plaPts[4].z=(float) (kinematics3D.points.get(4).getZ() / 1000.0f);
+        plaPts[6].x=(float) (kinematics3D.points2.get(6).getX()/ 1500.0f);
+        plaPts[6].y=(float) (kinematics3D.points2.get(6).getY() / 1500.0f);
+        plaPts[6].z=(float) (kinematics3D.points2.get(6).getZ() / 1500.0f);
 
-        plaPts[5].x=(float) (kinematics3D.points.get(5).getX()/ 1000.0f);
-        plaPts[5].y=(float) (kinematics3D.points.get(5).getY() / 1000.0f);
-        plaPts[5].z=(float) (kinematics3D.points.get(5).getZ() / 1000.0f);
+        plaPts[7].x=(float) (kinematics3D.points2.get(7).getX()/ 1500.0f);
+        plaPts[7].y=(float) (kinematics3D.points2.get(7).getY() / 1500.0f);
+        plaPts[7].z=(float) (kinematics3D.points2.get(7).getZ() / 1500.0f);
 
-        plaPts[6].x=(float) (kinematics3D.points.get(6).getX()/ 1000.0f);
-        plaPts[6].y=(float) (kinematics3D.points.get(6).getY() / 1000.0f);
-        plaPts[6].z=(float) (kinematics3D.points.get(6).getZ() / 1000.0f);
+        plaPts[8].x=(float) (kinematics3D.points2.get(8).getX()/ 1500.0f);
+        plaPts[8].y=(float) (kinematics3D.points2.get(8).getY() / 1500.0f);
+        plaPts[8].z=(float) (kinematics3D.points2.get(8).getZ() / 1500.0f);
 
         pla.setCoordinates(0, plaPts);
 
