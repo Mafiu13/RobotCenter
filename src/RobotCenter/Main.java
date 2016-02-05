@@ -17,9 +17,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-   //     MainGui mainGui = new MainGui();
-   //     MainController mainController = new MainController(mainGui);
-          Temp temp = new Temp();
+        MainGui mainGui = new MainGui();
+        MainController mainController = new MainController(mainGui);
+        //  Temp temp = new Temp();
     }
 
 }
