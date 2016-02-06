@@ -29,7 +29,7 @@ public class View2 extends JPanel {
     Kinematics3D kinematics3D;
 
 
-    public View2() {
+    public View2(double fi1,double fi2,double fi3, double fi4, double fi5, double fi6) {
          kinematics3D=new Kinematics3D();
         list3D1=new ArrayList<Point3D>();
         list3D2=new ArrayList<Point3D>();
@@ -42,7 +42,7 @@ public class View2 extends JPanel {
 
 
 
-        BranchGroup Robot= createRobot(0, 90, 0, 10, 90, 80);
+        BranchGroup Robot= createRobot(fi1,fi2,fi3,fi4,fi5,fi6);
         Robot.compile();
         SimpleUniverse simpleU = new SimpleUniverse(canvas3D);
         simpleU.getViewingPlatform().setNominalViewingTransform();

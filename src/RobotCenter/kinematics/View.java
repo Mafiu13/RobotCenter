@@ -29,7 +29,7 @@ public class View extends JPanel {
     Kinematics3D kinematics3D;
 
 
-    public View() {
+    public View(double fi1,double fi2,double fi3, double fi4, double fi5, double fi6) {
         kinematics3D=new Kinematics3D();
         list3D1 = new ArrayList<Point3D>();
         list3D2 = new ArrayList<Point3D>();
@@ -40,7 +40,7 @@ public class View extends JPanel {
 
 
 
-        BranchGroup Robot= createRobot(0,-90,0,0,90,0);
+        BranchGroup Robot= createRobot(fi1,fi2,fi3,fi4,fi5,fi6);
         Robot.compile();
         SimpleUniverse simpleU = new SimpleUniverse(canvas3D);
         simpleU.getViewingPlatform().setNominalViewingTransform();
@@ -130,8 +130,6 @@ public class View extends JPanel {
         MouseRotate wholeSceneMouseRotator = new MouseRotate();
         wholeSceneMouseRotator.setTransformGroup(objRotate);
         wholeSceneMouseRotator.setSchedulingBounds(new BoundingBox());
-
-
         lineGroup.addChild(wholeSceneMouseRotator);
 
         SBehavior myRotationBehavior = new SBehavior(objRotate);
