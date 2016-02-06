@@ -19,7 +19,7 @@ public class GraphicViewGui {
 
     public GraphicViewGui() {
 
-        frame = new JFrame("Graphic View");
+        frame = new JFrame("2D View");
         frame.setContentPane(graphicViewJPanel);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.pack();
@@ -27,7 +27,7 @@ public class GraphicViewGui {
         frame.setVisible(false);
 
         line2D = new Line2D.Double();
-        basicStroke = new BasicStroke((float)5);
+        basicStroke = new BasicStroke((float) 5);
         robotViewJPanel.setBackground(Color.white);
     }
 
@@ -36,10 +36,10 @@ public class GraphicViewGui {
         closeButton.addActionListener(listenForCloseButton);
     }
 
-    public Graphics2D getGraphics (){
+    public Graphics2D getGraphics() {
 
         Graphics g = robotViewJPanel.getGraphics();
-        Graphics2D g2 = (Graphics2D)g;
+        Graphics2D g2 = (Graphics2D) g;
 
         g2.setColor(Color.red);
         g2.setStroke(basicStroke);
@@ -47,17 +47,17 @@ public class GraphicViewGui {
         return g2;
     }
 
-    public Line2D getLine2D(){
+    public Line2D getLine2D() {
 
-        return  line2D;
+        return line2D;
     }
 
-    public int getHeightRobotViewJPanel(){
+    public int getHeightRobotViewJPanel() {
 
         return robotViewJPanel.getHeight();
     }
 
-    public int getWidthRobotViewJPanel(){
+    public int getWidthRobotViewJPanel() {
 
         return robotViewJPanel.getWidth();
     }

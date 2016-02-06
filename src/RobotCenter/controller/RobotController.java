@@ -38,6 +38,7 @@ public class RobotController extends Thread {
     private boolean abortFlag;
     private RobotControllerValidator robotControllerValidator;
     private GraphicViewController graphicViewController;
+    private ModelViewController modelViewController;
     private int speed;
 
 
@@ -74,6 +75,8 @@ public class RobotController extends Thread {
         /*robotGui.addStopRobotListener(new stopRobot());*/
         robotGui.addDisconnectRobotListener(new disconnectRobot());
         robotGui.addGraphicViewListener(new graphicView());
+        robotGui.addModelViewListener(new modelView());
+        robotGui.addMoveRobotListener(new modelView());
     }
 
     public void run() {
@@ -172,6 +175,16 @@ public class RobotController extends Thread {
             graphicViewController.setVisibleGraphicViewGui(true);
             robotGui.setEnableGraphicViewButton(false);
         }
+    }
+
+    class modelView implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+
+            modelViewController = new ModelViewController(currentJointPosition, robotGui, robotData.getRobotModelID());
+            robotGui.setEnableModelViewButton(false);
+        }
+
     }
 
     private void moveRobot(BufferedReader inputStream) {

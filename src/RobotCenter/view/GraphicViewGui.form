@@ -72,7 +72,7 @@
           <font size="20"/>
           <horizontalAlignment value="0"/>
           <horizontalTextPosition value="0"/>
-          <text value="Current robot position visaulization"/>
+          <text value="Current robot position 2D visaulization"/>
         </properties>
       </component>
     </children>

@@ -45,6 +45,7 @@ public class RobotGui {
     private JTextField speedTextField;
     private JButton graphicViewButton;
     private JLabel SpeedLabel;
+    private JButton modelViewButton;
 
     public RobotGui(String robotName) {
 
@@ -71,6 +72,11 @@ public class RobotGui {
         graphicViewButton.addActionListener(listenForGraphicViewButton);
     }
 
+    public void addModelViewListener(ActionListener listenForModelViewButton) {
+
+        modelViewButton.addActionListener(listenForModelViewButton);
+    }
+
     public void addDisconnectRobotListener(ActionListener listenForDisconnectRobotButton) {
 
         disconnectRobotButton.addActionListener(listenForDisconnectRobotButton);
@@ -93,6 +99,11 @@ public class RobotGui {
     public void setEnableGraphicViewButton(boolean flag) {
 
         graphicViewButton.setEnabled(flag);
+    }
+
+    public void setEnableModelViewButton(boolean flag) {
+
+        modelViewButton.setEnabled(flag);
     }
 
     public void setRobotClientLabel(String robotClient) {

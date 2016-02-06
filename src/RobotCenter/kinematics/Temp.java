@@ -22,7 +22,7 @@ public class Temp {
 
         {
             JFrame frame = new JFrame();
-            Component add = frame.add(new JScrollPane(new View()));
+            Component add = frame.add(new JScrollPane(new View(0,-90,0,90,0,90)));
             frame.setSize(1000, 800);
             frame.setVisible(true);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,7 +30,7 @@ public class Temp {
 
         {
             JFrame frame2 = new JFrame();
-            Component add = frame2.add(new JScrollPane(new View2()));
+            Component add = frame2.add(new JScrollPane(new View2(0,-90,0,90,0,90)));
             frame2.setSize(1000, 800);
             frame2.setVisible(true);
             frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
