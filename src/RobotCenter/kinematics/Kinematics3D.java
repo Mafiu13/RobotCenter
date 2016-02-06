@@ -1,11 +1,19 @@
 package RobotCenter.kinematics;
 
+/**
+ * Created by Jedi on 2016-02-06.
+ */
+
 import java.util.ArrayList;
+
+
+import java.util.ArrayList;
+
 
 /**
  * Created by YapYap on 2016-01-26.
  */
-public class Kinematics {
+public class Kinematics3D {
     public ArrayList<Point3D> points;
     public ArrayList<Point3D> points2;
 
@@ -56,11 +64,11 @@ public class Kinematics {
     Transformation matrix34_2;
     Transformation matrix45_2;
     Transformation matrix56_2;
-
     //Transformation tablica_x;
 
 
-    public Kinematics() {
+    public Kinematics3D() {
+
         double x;
         double y;
         double z;
@@ -72,12 +80,13 @@ public class Kinematics {
         Point3D previous = null;
         Point3D new_one = null;
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 7; i++) {
 
             if (i == 0) {
                 previous = new_one;
                 new_one = new Point3D(previous, 0, 0, 0);
                 points.add(new_one);
+
             } else {
                 previous = new_one;
                 new_one = new Point3D(previous, 0, 0, 0);
@@ -86,7 +95,7 @@ public class Kinematics {
         }
 
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 9; i++) {
 
             if (i == 0) {
                 previous = new_one;
@@ -100,6 +109,7 @@ public class Kinematics {
         }
 
         m1 = new Matrix(table);
+
         matrix02 = new double[3][3];
         matrix03 = new double[3][3];
         matrix04 = new double[3][3];
@@ -128,18 +138,45 @@ public class Kinematics {
         matrix45_2 = new Transformation(0, 90, 0, 0);
         matrix56_2 = new Transformation(0, 0, 0, 100);
 
-
     }
+
 
     public void setAngle1(double f1, double f2, double f3, double f4, double f5, double f6) {
 
 
-        matrix01.countMatrix(f1);
-        matrix12.countMatrix(f2);
-        matrix23.countMatrix(f3);
-        matrix34.countMatrix(f4);
-        matrix45.countMatrix(f5);
-        matrix56.countMatrix(f6);
+        matrix01.countMatrix(degToRad(f1));
+        matrix12.countMatrix(degToRad(f2));
+        matrix23.countMatrix(degToRad(f3));
+        matrix34.countMatrix(degToRad(f4));
+        matrix45.countMatrix(degToRad(f5));
+        matrix56.countMatrix(degToRad(f6));
+
+
+
+        matrix02 = m1.multiplyTables(matrix01.table, matrix12.table);
+        matrix03 = m1.multiplyTables(matrix02, matrix23.table);
+        matrix04 = m1.multiplyTables(matrix03, matrix34.table);
+        matrix05 = m1.multiplyTables(matrix04, matrix45.table);
+        matrix06 = m1.multiplyTables(matrix05, matrix56.table);
+
+        points.get(0).Move(0, 0, 0);
+        points.get(1).Move(matrix01.table[0][3], matrix01.table[1][3], matrix01.table[2][3]);
+        points.get(2).Move(matrix02[0][3], matrix02[1][3], matrix02[2][3]);
+        points.get(3).Move(matrix03[0][3], matrix03[1][3], matrix03[2][3]);
+        points.get(4).Move(matrix04[0][3], matrix04[1][3], matrix04[2][3]);
+        points.get(5).Move(matrix05[0][3], matrix05[1][3], matrix05[2][3]);
+        points.get(6).Move(matrix06[0][3], matrix06[1][3], matrix06[2][3]);
+    }
+
+    public void setAngle12D(double f1, double f2, double f3, double f4, double f5, double f6) {
+
+
+        matrix01.countMatrix(degToRad(f1));
+        matrix12.countMatrix(degToRad(f2));
+        matrix23.countMatrix(degToRad(f3));
+        matrix34.countMatrix(degToRad(f4));
+        matrix45.countMatrix(degToRad(f5));
+        matrix56.countMatrix(degToRad(f6));
 
 
         matrix02 = m1.multiplyTables(matrix01.table, matrix12.table);
@@ -149,13 +186,13 @@ public class Kinematics {
         matrix06 = m1.multiplyTables(matrix05, matrix56.table);
 
 
-        points.get(0).Move(matrix01.table[0][3], matrix01.table[1][3], matrix01.table[2][3]);
-        points.get(1).Move(matrix02[0][3], matrix02[1][3], matrix02[2][3]);
-        points.get(2).Move(matrix03[0][3], matrix03[1][3], matrix03[2][3]);
-        points.get(3).Move(matrix04[0][3], matrix04[1][3], matrix04[2][3]);
-        points.get(4).Move(matrix05[0][3], matrix05[1][3], matrix05[2][3]);
-        points.get(5).Move(matrix06[0][3], matrix06[1][3], matrix06[2][3]);
-
+        points.get(0).Move(0, 0, 0);
+        points.get(1).Move(matrix01.table[0][3], matrix01.table[1][3], matrix01.table[2][3]);
+        points.get(2).Move(matrix02[0][3], matrix02[1][3], matrix02[2][3]);
+        points.get(3).Move(matrix03[0][3], matrix03[1][3], matrix03[2][3]);
+        points.get(4).Move(matrix04[0][3], matrix04[1][3], matrix04[2][3]);
+        points.get(5).Move(matrix05[0][3], matrix05[1][3], matrix05[2][3]);
+        points.get(6).Move(matrix06[0][3], matrix06[1][3], matrix06[2][3]);
 
         for (int i = 0; i < points.size(); i++) {
             points.get(i).drawLines2D();
@@ -168,18 +205,18 @@ public class Kinematics {
             points.get(i).RotY(270);
 
         }
+
     }
 
     public void setAngle2(double f1, double f2, double f3, double f4, double f5, double f6) {
 
 
-        matrix01_2.countMatrix(f1);
-        matrix12_2.countMatrix(f2);
-        matrix23_2.countMatrix(f3);
-        matrix34_2.countMatrix(f4);
-        matrix45_2.countMatrix(f5);
-        matrix56_2.countMatrix(f6);
-
+        matrix01_2.countMatrix(degToRad(f1));
+        matrix12_2.countMatrix(degToRad(f2));
+        matrix23_2.countMatrix(degToRad(f3));
+        matrix34_2.countMatrix(degToRad(f4));
+        matrix45_2.countMatrix(degToRad(f5));
+        matrix56_2.countMatrix(degToRad(f6));
 
         matrix02_2 = m1.multiplyTables(matrix01_2.table, matrix12_2.table);
         matrix03_2 = m1.multiplyTables(matrix02_2, matrix23_2.table);
@@ -188,12 +225,44 @@ public class Kinematics {
         matrix06_2 = m1.multiplyTables(matrix05_2, matrix56_2.table);
 
 
-        points2.get(0).Move(matrix01_2.table[0][3], matrix01_2.table[1][3], matrix01_2.table[2][3]);
-        points2.get(1).Move(matrix02_2[0][3], matrix02_2[1][3], matrix02_2[2][3]);
-        points2.get(2).Move(matrix03_2[0][3], matrix03_2[1][3], matrix03_2[2][3]);
-        points2.get(3).Move(matrix04_2[0][3], matrix04_2[1][3], matrix04_2[2][3]);
-        points2.get(4).Move(matrix05_2[0][3], matrix05_2[1][3], matrix05_2[2][3]);
-        points2.get(5).Move(matrix06_2[0][3], matrix06_2[1][3], matrix06_2[2][3]);
+        points2.get(0).Move(0, 0, 0);
+        points2.get(1).Move(matrix01_2.table[0][3], matrix01_2.table[1][3], matrix01_2.table[2][3]);
+        points2.get(2).Move(matrix02_2[0][3], matrix02_2[1][3], matrix02_2[2][3]-600);
+        points2.get(3).Move(matrix02_2[0][3], matrix02_2[1][3], matrix02_2[2][3]);
+
+        points2.get(4).Move(matrix01_2.table[0][3], matrix01_2.table[1][3], matrix01_2.table[2][3]+600);
+        points2.get(5).Move(matrix03_2[0][3], matrix03_2[1][3], matrix03_2[2][3]);
+        points2.get(6).Move(matrix04_2[0][3], matrix04_2[1][3], matrix04_2[2][3]);
+        points2.get(7).Move(matrix05_2[0][3], matrix05_2[1][3], matrix05_2[2][3]);
+        points2.get(8).Move(matrix06_2[0][3], matrix06_2[1][3], matrix06_2[2][3]);
+    }
+
+    public void setAngle22D(double f1, double f2, double f3, double f4, double f5, double f6) {
+
+/*
+        matrix01_2.countMatrix(degToRad(f1));
+        matrix12_2.countMatrix(degToRad(f2));
+        matrix23_2.countMatrix(degToRad(f3));
+        matrix34_2.countMatrix(degToRad(f4));
+        matrix45_2.countMatrix(degToRad(f5));
+        matrix56_2.countMatrix(degToRad(f6));
+
+
+        points2.get(0).Move(0, 0, 0);
+        points2.get(1).Move(matrix01_2.table[0][3], matrix01_2.table[1][3], matrix01_2.table[2][3]);
+        points2.get(2).Move(matrix02_2[0][3], matrix02_2[1][3], matrix02_2[2][3]-600);
+        points2.get(3).Move(matrix02_2[0][3], matrix02_2[1][3], matrix02_2[2][3]);
+
+        points2.get(4).Move(matrix01_2.table[0][3], matrix01_2.table[1][3], matrix01_2.table[2][3]+600);
+        points2.get(5).Move(matrix03_2[0][3], matrix03_2[1][3], matrix03_2[2][3]);
+        points2.get(6).Move(matrix04_2[0][3], matrix04_2[1][3], matrix04_2[2][3]);
+        points2.get(7).Move(matrix05_2[0][3], matrix05_2[1][3], matrix05_2[2][3]);
+        points2.get(8).Move(matrix06_2[0][3], matrix06_2[1][3], matrix06_2[2][3]);
+
+
+  */      //MoveTheList2(points2);
+
+        setAngle2(fi1,fi2,fi3,fi4,fi5,fi6);
 
 
         for (int i = 0; i < points2.size(); i++) {
@@ -209,6 +278,10 @@ public class Kinematics {
             points2.get(i).RotY(180);
         }
 
+    }
 
+    private double degToRad(double deg) {
+        return deg * ((2 * Math.PI) / 360);
     }
 }
+

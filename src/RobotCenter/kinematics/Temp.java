@@ -18,6 +18,8 @@ public class Temp {
 
 //        System.out.print(x);
 
+        kinematics3d= new Kinematics();
+
         {
             JFrame frame = new JFrame();
             Component add = frame.add(new JScrollPane(new View()));
