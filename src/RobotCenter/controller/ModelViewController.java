@@ -53,7 +53,7 @@ public class ModelViewController {
                 view = new View(CJPos.getAxis(1), CJPos.getAxis(2), CJPos.getAxis(3), CJPos.getAxis(4), CJPos.getAxis(5), CJPos.getAxis(6));
                 modelViewGui.add3DModel(view);
                 break;
-            default:
+                default:
                 break;
         }
 

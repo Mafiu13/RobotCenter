@@ -47,9 +47,21 @@ public class GraphicViewGui {
         return g2;
     }
 
+
+
+
     public Line2D getLine2D() {
 
         return line2D;
+    }
+
+    public void clear2D() {
+
+        Graphics g=robotViewJPanel.getGraphics();
+        Graphics2D g2= (Graphics2D)g;
+        g2.setColor(Color.white);
+        g2.fillRect(0,0,frame.getWidth(),frame.getHeight());
+
     }
 
     public int getHeightRobotViewJPanel() {

@@ -127,10 +127,6 @@ public class Point3D {
 
     public void drawLines2D() {
 
-      //  g2.setColor(Color.WHITE);
-    //    g2.fillRect (0, 0, width, height);
-
-
         if (previous != null) {
 
 

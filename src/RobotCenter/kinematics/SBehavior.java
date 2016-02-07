@@ -1,4 +1,5 @@
 package RobotCenter.kinematics;
+
 import java.applet.Applet;
 import java.awt.BorderLayout;
 import java.awt.Frame;
@@ -14,37 +15,38 @@ import javax.media.j3d.Canvas3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.WakeupOnAWTEvent;
+import javax.vecmath.Vector3d;
 
 import com.sun.j3d.utils.applet.MainFrame;
 import com.sun.j3d.utils.geometry.ColorCube;
 import com.sun.j3d.utils.universe.SimpleUniverse;
+
 /**
  * Created by Jedi on 2016-02-04.
  */
 
-    public class SBehavior extends Behavior{
+public class SBehavior extends Behavior {
 
-        private TransformGroup targetTG;
+    private TransformGroup targetTG;
 
-        //private Transform3D rotation = new Transform3D();
+    //private Transform3D rotation = new Transform3D();
 
-        private double angle = 0.0;
-        //private double angle2 = 0.0;
-        //private double angle3 = 0.0;
+    private double angle = 0.0;
+    //private double angle2 = 0.0;
+    //private double angle3 = 0.0;
 
-        // create SimpleBehavior
-        SBehavior(TransformGroup targetTG)
-        {
-            this.targetTG = targetTG;
-        }
+    // create SimpleBehavior
+    SBehavior(TransformGroup targetTG) {
+        this.targetTG = targetTG;
+    }
 
-        // initialize the Behavior
-        //     set initial wakeup condition
-        //     called when behavior beacomes live
-        public void initialize() {
-            // set initial wakeup condition
-            this.wakeupOn(new WakeupOnAWTEvent(KeyEvent.KEY_PRESSED));
-        }
+    // initialize the Behavior
+    //     set initial wakeup condition
+    //     called when behavior beacomes live
+    public void initialize() {
+        // set initial wakeup condition
+        this.wakeupOn(new WakeupOnAWTEvent(KeyEvent.KEY_PRESSED));
+    }
 
     public void processStimulus(Enumeration criteria) {
         // decode event
@@ -60,19 +62,29 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 
 
         Transform3D rotation = new Transform3D();
-        rotation.mul(rotation1,rotation2);
-        rotation.mul(rotation,rotation3);
+        rotation.mul(rotation1, rotation2);
+        rotation.mul(rotation, rotation3);
 
-  //      targetTG.setTransform(rotation);
+        //      targetTG.setTransform(rotation);
         // do what is necessary
         angle += 0.1;
 
 
         Transform3D rotation4 = new Transform3D();
 
-            rotation4.rotZ(angle);
-            rotation.mul(rotation,rotation4);
-            targetTG.setTransform(rotation);
+        rotation4.rotZ(angle);
+
+
+        rotation.mul(rotation, rotation4);
+
+        Transform3D translation = new Transform3D();
+        Vector3d vector = new Vector3d(0, 0, -0.2);
+
+        translation.setTranslation(vector);
+
+        rotation.mul(rotation, translation);
+
+        targetTG.setTransform(rotation);
 
         this.wakeupOn(new WakeupOnAWTEvent(KeyEvent.KEY_PRESSED));
     }
@@ -85,4 +97,4 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 }
 
 
-     // end of class SimpleBehavior
+// end of class SimpleBehavior

@@ -59,7 +59,7 @@ public class GraphicViewController {
     public void paintRobot(int model, JointPosition CJPos) {
 
         point3D.setGraphics(graphicViewGui.getGraphics());
-
+        graphicViewGui.clear2D();
         switch (model) {
 
             case 0:

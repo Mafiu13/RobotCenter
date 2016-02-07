@@ -1,5 +1,6 @@
 package RobotCenter.kinematics;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -8,7 +9,6 @@ import java.util.ArrayList;
 public class Kinematics {
     public ArrayList<Point3D> points;
     public ArrayList<Point3D> points2;
-
     Matrix m1;// wykonywanie oblicznen  na macierzach
 
     private double fi1;
@@ -194,6 +194,8 @@ public class Kinematics {
         points2.get(3).Move(matrix04_2[0][3], matrix04_2[1][3], matrix04_2[2][3]);
         points2.get(4).Move(matrix05_2[0][3], matrix05_2[1][3], matrix05_2[2][3]);
         points2.get(5).Move(matrix06_2[0][3], matrix06_2[1][3], matrix06_2[2][3]);
+
+
 
 
         for (int i = 0; i < points2.size(); i++) {
