@@ -76,7 +76,7 @@ public class RobotController extends Thread {
         robotGui.addDisconnectRobotListener(new disconnectRobot());
         robotGui.addGraphicViewListener(new graphicView());
         robotGui.addModelViewListener(new modelView());
-        robotGui.addMoveRobotListener(new modelView());
+        robotGui.addMoveRobotListener(new moveRobot());
     }
 
     public void run() {
