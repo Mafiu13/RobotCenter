@@ -58,7 +58,7 @@ public class SBehavior extends Behavior {
         rotation2.rotY(degToRad(180));
 
         Transform3D rotation3 = new Transform3D();
-        rotation3.rotZ(degToRad(0));
+        rotation3.rotZ(degToRad(180));
 
 
         Transform3D rotation = new Transform3D();

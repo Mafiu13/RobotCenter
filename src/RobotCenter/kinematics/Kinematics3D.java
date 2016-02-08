@@ -141,7 +141,14 @@ public class Kinematics3D {
     }
 
 
-    public void setAngle1(double f1, double f2, double f3, double f4, double f5, double f6) {
+    public void setAngle1(double f1, double f2_t, double f3_t, double f4_t, double f5, double f6) {
+
+
+        //korekcja
+
+        double f2=f2_t-90;
+        double f3=-f3_t;
+        double f4=-(f4_t-180);
 
 
         matrix01.countMatrix(degToRad(f1));
@@ -208,7 +215,14 @@ public class Kinematics3D {
 
     }
 
-    public void setAngle2(double f1, double f2, double f3, double f4, double f5, double f6) {
+    public void setAngle2(double f1_t, double f2_t, double f3_t, double f4_t, double f5_t, double f6) {
+
+
+        double f1=-f1_t;
+        double f2=-(f2_t-90);
+        double f3=-f3_t;
+        double f4=-(f4_t-180);
+        double f5=-(f5_t);
 
 
         matrix01_2.countMatrix(degToRad(f1));

@@ -131,15 +131,23 @@ public class Kinematics {
 
     }
 
-    public void setAngle1(double f1, double f2, double f3, double f4, double f5, double f6) {
+    public void setAngle1(double f1, double f2_t, double f3_t, double f4_t, double f5, double f6) {
 
 
-        matrix01.countMatrix(f1);
-        matrix12.countMatrix(f2);
-        matrix23.countMatrix(f3);
-        matrix34.countMatrix(f4);
-        matrix45.countMatrix(f5);
-        matrix56.countMatrix(f6);
+        //korekcja
+
+        double f2=f2_t-90;
+        double f3=-f3_t;
+        double f4=-(f4_t-180);
+
+        matrix01.countMatrix(degToRad(f1));
+        matrix12.countMatrix(degToRad(f2));
+        matrix23.countMatrix(degToRad(f3));
+        matrix34.countMatrix(degToRad(f4));
+        matrix45.countMatrix(degToRad(f5));
+        matrix56.countMatrix(degToRad(f6));
+
+
 
 
         matrix02 = m1.multiplyTables(matrix01.table, matrix12.table);
@@ -170,15 +178,21 @@ public class Kinematics {
         }
     }
 
-    public void setAngle2(double f1, double f2, double f3, double f4, double f5, double f6) {
+    public void setAngle2(double f1_t, double f2_t, double f3_t, double f4_t, double f5_t, double f6) {
+
+        double f1=-f1_t;
+        double f2=-(f2_t-90);
+        double f3=-f3_t;
+        double f4=-(f4_t-180);
+        double f5=-(f5_t);
 
 
-        matrix01_2.countMatrix(f1);
-        matrix12_2.countMatrix(f2);
-        matrix23_2.countMatrix(f3);
-        matrix34_2.countMatrix(f4);
-        matrix45_2.countMatrix(f5);
-        matrix56_2.countMatrix(f6);
+        matrix01_2.countMatrix(degToRad(f1));
+        matrix12_2.countMatrix(degToRad(f2));
+        matrix23_2.countMatrix(degToRad(f3));
+        matrix34_2.countMatrix(degToRad(f4));
+        matrix45_2.countMatrix(degToRad(f5));
+        matrix56_2.countMatrix(degToRad(f6));
 
 
         matrix02_2 = m1.multiplyTables(matrix01_2.table, matrix12_2.table);
@@ -212,5 +226,11 @@ public class Kinematics {
         }
 
 
+    }
+
+
+
+    private double degToRad(double deg) {
+        return deg * ((2 * Math.PI) / 360);
     }
 }

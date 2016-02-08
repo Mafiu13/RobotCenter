@@ -17,7 +17,7 @@ public class ModelViewGui {
 
         frame = new JFrame("3D Model");
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        frame.setSize(1000, 800);
+        frame.setSize(1000, 700);
         setCloseButton();
         setModelViewGui();
         frame.setLocationRelativeTo(null);
@@ -32,7 +32,7 @@ public class ModelViewGui {
     private void setCloseButton() {
 
         closeButton = new JButton("CLOSE");
-        closeButton.setBounds(425, 705, 150, 40);
+        closeButton.setBounds(425, 605, 150, 40);
         frame.add(closeButton);
     }
 
